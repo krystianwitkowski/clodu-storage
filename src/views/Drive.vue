@@ -331,6 +331,6 @@
 
 <script>
 export default {
-  name: "MyDrive",
+  name: "Drive",
 };
 </script>

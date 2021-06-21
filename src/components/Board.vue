@@ -1,15 +1,11 @@
 <template>
-    <MyDrive />
+    <router-view></router-view>
 </template>
 
 <script>
-import MyDrive from './MyDrive.vue'
 
 export default {
-    name: 'Board',
-    components: {
-        MyDrive
-    }
+    name: 'Board'
 }
 </script>
 
