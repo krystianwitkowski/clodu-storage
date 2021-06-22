@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main class="d-flex flex-row">
+    <v-main class="d-flex flex-row" style="position: relative;">
         <v-row>
           <v-col cols="3">
             <Menu />
@@ -22,6 +22,14 @@ export default {
   components: {
     Menu,
     Board
+  },
+  computed: {
+    isOverlayFolder(){
+      return this.$store.state.isOverlayFolder;
+    }
+  },
+  methods: {
+
   }
 };
 </script>

@@ -7,7 +7,7 @@
       style="position: relative;"
     >
     <v-btn
-      @click="toggleDropdown"
+      @click="toggleDropdownFiles"
       rounded
       width="120"
       height="45"
@@ -18,7 +18,7 @@
         mdi-plus
       </v-icon>
     </v-btn>
-       <DropdownSend v-if="isDropdown" />
+      <DropdownFiles v-show="isDropdownFiles" />
       <v-list dense shaped class="pa-0">
         <v-list-item-group
           v-model="selectedItem"
@@ -56,16 +56,15 @@
 </template>
 
 <script>
-import DropdownSend from './DropdownSend.vue';
+import DropdownFiles from './DropdownFiles.vue';
 
 export default {
   name: 'Menu',
   components: {
-    DropdownSend
+    DropdownFiles
   },
   data(){
     return {
-      isDropdown: false,
       selectedItem: 1,
       items: [
         { text: 'My drive', path: '/drive', icon: 'mdi-file-document-multiple-outline' },
@@ -75,11 +74,13 @@ export default {
     }
   },
   computed: {
-
+    isDropdownFiles(){
+      return this.$store.state.isDropdownFiles
+    }
   },
   methods: {
-    toggleDropdown(){
-      this.isDropdown = !this.isDropdown
+    toggleDropdownFiles(){
+      this.$store.state.isDropdownFiles = !this.$store.state.isDropdownFiles
     }
   }
 };
@@ -94,4 +95,5 @@ export default {
   font-weight: 500;
   line-height: 1rem;
 }
+
 </style>

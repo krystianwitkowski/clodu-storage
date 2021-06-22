@@ -4,7 +4,7 @@
     tile
     style="position: absolute; top: 100px; right: 20px; z-index: 1;"
   >
-    <v-list dense>
+    <v-list dense class="pa-0">
       <v-list-item-group
         v-model="selectedItem"
         color="primary"
@@ -13,11 +13,16 @@
           v-for="(item, i) in items"
           :key="i"
         >
+        <v-file-input
+          dense
+          v-model="item.file"
+          truncate-length="15"
+        ></v-file-input>
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
+            <v-list-item-title style="color: #585858" v-text="item.text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -26,17 +31,27 @@
 </template>
 
 <script>
+import createUploadFile from '../api/createUploadFile.js';
 
 export default {
-    name: 'DropdownSend',
+    name: 'DropdownFiles',
     data(){
         return {
             selectedItem: 1,
             items: [
-                { text: 'Create folder', icon: 'mdi-folder' },
-                { text: 'Send file', icon: 'mdi-file' }
+                { text: 'Send folder', file: null, icon: 'mdi-folder' },
+                { text: 'Send file', file: null, icon: 'mdi-file' }
             ],
         }
-    }
+    },
+
+    async updated(){
+      if(this.items[1].file){
+        await createUploadFile(this.items[1].file);
+      
+
+      }
+    },
+
 }
 </script>

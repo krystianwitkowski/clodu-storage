@@ -1,8 +1,23 @@
-import { createStore } from "vuex";
+import Vue from 'vue';
+import Vuex from "vuex";
 
-export default createStore({
-  state: {},
-  mutations: {},
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
+    isDropdownFiles: false
+  },
+  mutations: {
+    toggleDropdownFiles(state, payload){
+      if(typeof payload === "boolean"){
+        return state.isDropdownFiles = false
+      }
+
+      else {
+        return state.isDropdownFiles = !state.isDropdownFiles
+      }
+    }
+  },
   actions: {},
   modules: {}
 });
