@@ -68,7 +68,7 @@ export default {
       selectedItem: 1,
       items: [
         { text: 'My drive', path: '/drive', icon: 'mdi-file-document-multiple-outline' },
-        { text: 'Latest', path: '/latest', icon: 'mdi-clock-time-eight-outline' },
+        { text: 'Starred', path: '/starred', icon: 'mdi-star-outline' },
         { text: 'Trash', path: '/trash', icon: 'mdi-trash-can-outline' },
       ],
     }

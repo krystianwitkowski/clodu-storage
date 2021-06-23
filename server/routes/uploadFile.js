@@ -13,10 +13,10 @@ Router.route("/")
     const update = await db.collection('users').doc("0").update({
         files: [...users.data().files, {
             id: users.data().files.length > 0 ? users.data().files.length : 0,
-            file: JSON.stringify(req.files.file)
+            file: JSON.stringify(req.files.file),
+            base64: Buffer.from(req.files.file.data).toString('base64')
         }]
     });
-
     res.json(update)
 })
 .get(async(req, res) => {

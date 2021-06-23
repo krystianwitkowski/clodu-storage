@@ -4,6 +4,6 @@
 <script>
 
 export default {
-    name: 'Latest'
+    name: 'Starred'
 }
 </script>

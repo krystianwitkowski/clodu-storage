@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Drive from '../views/Drive.vue'
-import Latest from '../views/Latest.vue'
+import Starred from '../views/Starred.vue'
 import Trash from '../views/Trash.vue'
 
 Vue.use(VueRouter)
@@ -19,9 +19,9 @@ const routes = [
     component: Drive
   },
   {
-    path: '/latest',
-    name: 'Latest',
-    component: Latest
+    path: '/starred',
+    name: 'Starred',
+    component: Starred
   },
   {
     path: '/trash',
