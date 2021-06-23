@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isDropdownFiles: false
+    isDropdownFiles: false,
+    files: []
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -16,6 +17,12 @@ export default new Vuex.Store({
       else {
         return state.isDropdownFiles = !state.isDropdownFiles
       }
+    },
+    addFile(state, payload){
+      return state.files = [...state.files, payload[0]]
+    },
+    addFiles(state, payload){
+      return state.files = payload
     }
   },
   actions: {},

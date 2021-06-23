@@ -1,13 +1,17 @@
-export default async (file) => {
-    let formData = new FormData();
-    
-    formData.append('file', file)
-  
-    return fetch('http://localhost:5001/api/uploadFile', {
+export default async (filter) => {
+    let url;
+
+    if(filter){
+        url = `http://localhost:5001/api/uploadFile?file=${filter.file}`;
+    }
+
+    else {
+        url = 'http://localhost:5001/api/uploadFile';
+    }
+
+    return fetch(url, {
         headers: {
             'Content-Type': 'application/json'
         }
-        method: 'POST',
-        body: formData
     });
   }

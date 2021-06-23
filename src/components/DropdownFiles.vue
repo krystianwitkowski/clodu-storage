@@ -32,23 +32,29 @@
 
 <script>
 import createUploadFile from '../api/createUploadFile.js';
+import getUploadFile from '../api/getUploadFile.js';
 
 export default {
     name: 'DropdownFiles',
     data(){
         return {
-            selectedItem: 1,
-            items: [
-                { text: 'Send folder', file: null, icon: 'mdi-folder' },
-                { text: 'Send file', file: null, icon: 'mdi-file' }
-            ],
+          selectedItem: 1,
+          items: [
+              { text: 'Send folder', file: null, icon: 'mdi-folder' },
+              { text: 'Send file', file: null, icon: 'mdi-file' }
+          ],
         }
     },
 
     async updated(){
       if(this.items[1].file){
+
+        this.$store.commit('toggleDropdownFiles')
+        
         await createUploadFile(this.items[1].file);
-      
+        await getUploadFile({ file: 'last' }).then(res => res.json()).then(files => {
+          this.$store.commit('addFile', files)
+        })
 
       }
     },

@@ -174,7 +174,7 @@
         </v-col>
       </v-row>
       <v-row class="mt-0">
-        <v-col style="flex-basis: 33%">
+        <v-col v-for="(file, index) in files" :key="index" style="flex-basis: 33%">
           <v-list-item-group>
             <v-list-item
               class="flex-column"
@@ -193,132 +193,7 @@
               </v-list-item-icon>
               <v-list-item-content style="flex: initial; padding-top: 25px">
                 <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-col>
-        <v-col style="flex-basis: 33%">
-          <v-list-item-group>
-            <v-list-item
-              class="flex-column"
-              style="
-                padding: 30px 0;
-                min-height: initial;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                height: 170px;
-                border-radius: 8px;
-              "
-            >
-              <v-list-item-icon class="ma-0" style="align-self: center">
-                <v-icon color="#A9A9A9" style="font-size: 52px"
-                  >mdi-file</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content style="flex: initial; padding-top: 25px">
-                <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-col>
-        <v-col style="flex-basis: 33%">
-          <v-list-item-group>
-            <v-list-item
-              class="flex-column"
-              style="
-                padding: 30px 0;
-                min-height: initial;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                height: 170px;
-                border-radius: 8px;
-              "
-            >
-              <v-list-item-icon class="ma-0" style="align-self: center">
-                <v-icon color="#A9A9A9" style="font-size: 52px"
-                  >mdi-file</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content style="flex: initial; padding-top: 25px">
-                <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-col>
-        <v-col style="flex-basis: 33%">
-          <v-list-item-group>
-            <v-list-item
-              class="flex-column"
-              style="
-                padding: 30px 0;
-                min-height: initial;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                height: 170px;
-                border-radius: 8px;
-              "
-            >
-              <v-list-item-icon class="ma-0" style="align-self: center">
-                <v-icon color="#A9A9A9" style="font-size: 52px"
-                  >mdi-file</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content style="flex: initial; padding-top: 25px">
-                <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-col>
-        <v-col style="flex-basis: 33%">
-          <v-list-item-group>
-            <v-list-item
-              class="flex-column"
-              style="
-                padding: 30px 0;
-                min-height: initial;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                height: 170px;
-                border-radius: 8px;
-              "
-            >
-              <v-list-item-icon class="ma-0" style="align-self: center">
-                <v-icon color="#A9A9A9" style="font-size: 52px"
-                  >mdi-file</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content style="flex: initial; padding-top: 25px">
-                <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
-                >
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-col>
-        <v-col style="flex-basis: 33%">
-          <v-list-item-group>
-            <v-list-item
-              class="flex-column"
-              style="
-                padding: 30px 0;
-                min-height: initial;
-                border: 1px solid rgba(0, 0, 0, 0.12);
-                height: 170px;
-                border-radius: 8px;
-              "
-            >
-              <v-list-item-icon class="ma-0" style="align-self: center">
-                <v-icon color="#A9A9A9" style="font-size: 52px"
-                  >mdi-file</v-icon
-                >
-              </v-list-item-icon>
-              <v-list-item-content style="flex: initial; padding-top: 25px">
-                <v-list-item-title style="color: #585858" class="subtitle-2"
-                  >landing page.rar</v-list-item-title
+                  >{{ file.file.name }}</v-list-item-title
                 >
               </v-list-item-content>
             </v-list-item>
@@ -330,7 +205,19 @@
 </template>
 
 <script>
+import getUploadFile from '../api/getUploadFile.js';
+
 export default {
   name: "Drive",
+  computed: {
+    files(){
+      return this.$store.state.files.map((obj, i) => typeof i === 'number' ? { ...obj, file: JSON.parse(obj.file) } : null)
+    }
+  },
+  async created(){
+    await getUploadFile().then(res => res.json()).then(files => {
+      this.$store.commit('addFiles', files)
+    })
+  }
 };
 </script>
