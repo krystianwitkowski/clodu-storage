@@ -1,6 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 const admin = require("firebase-admin");
+const mimeTypes = require('../utilities/mime-types.js');
 
 const db = admin.firestore();
 
@@ -14,7 +15,8 @@ Router.route("/")
         files: [...users.data().files, {
             id: users.data().files.length > 0 ? users.data().files.length : 0,
             file: JSON.stringify(req.files.file),
-            base64: Buffer.from(req.files.file.data).toString('base64')
+            base64: Buffer.from(req.files.file.data).toString('base64'),
+            icons: mimeTypes.find(type => type === req.files.file.mimetype)
         }]
     });
     res.json(update)
