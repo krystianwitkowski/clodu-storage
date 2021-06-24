@@ -1,41 +1,41 @@
 <template>
   <v-container>
-    <v-container class="pa-0">
-      <v-row>
-        <v-col>
-          <p style="color: #585858" class="subtitle-1 pl-3 font-weight-medium">
-            My drive
-          </p>
-          <v-divider></v-divider>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="pa-0 mt-8">
+    <v-container class="pa-4 mt-5">
       <v-row>
         <v-col class="pa-0">
           <p style="color: #585858" class="subtitle-2 pl-3">Files</p>
         </v-col>
       </v-row>
-      <v-row class="mt-0">
-        <v-col v-for="(file, index) in files" :key="index" style="flex-basis: 33%" :data-id="file.id">
-          <a :href="`data:${file.file.mimetype};base64,${file.base64}`" :download="file.file.name">
-            <v-list-item-group>
-              <v-list-item
-                class="flex-column"
+      <v-row class="mt-7" style="max-width: 780px;">
+        <v-col v-for="(file, index) in files" :key="index" style="padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
+          <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px;">
+            <v-list-item-group style="height: 100%;">
+              <v-list-item 
                 style="
-                  padding: 30px 0;
-                  min-height: initial;
-                  border: 1px solid rgba(0, 0, 0, 0.12);
-                  height: 170px;
-                  border-radius: 8px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: flex-end;
+                  height: 100%;
                 "
               >
-                <v-list-item-icon class="ma-0" style="align-self: center">
-                  <v-icon color="#A9A9A9" style="font-size: 52px"
-                    >mdi-file</v-icon
+                <v-list-item-icon class="ma-0" style="align-self: center;">
+                  <v-icon color="#FC8A17" style="font-size: 28px"
+                    >{{ file.icons.icon }}</v-icon
                   >
                 </v-list-item-icon>
-                <v-list-item-content style="flex: initial; padding-top: 25px">
+                <div class="item-icons d-flex" style="position: absolute; top: -30px; right: 5px;">
+                  <v-list-item-icon class="ma-0">
+                    <v-icon color="#A9A9A9" style="font-size: 19px"
+                      >mdi-star-outline</v-icon
+                    >
+                  </v-list-item-icon>
+                  <v-list-item-icon class="ma-0" @click="addTrash" :data-id="file.id">
+                    <v-icon color="#A9A9A9" style="font-size: 19px"
+                      >mdi-trash-can-outline</v-icon
+                    >
+                  </v-list-item-icon>
+                </div>
+                <v-list-item-content style="flex: initial;">
                   <v-list-item-title style="color: #585858" class="subtitle-2"
                     >{{ file.file.name }}</v-list-item-title
                   >
@@ -51,12 +51,23 @@
 
 <script>
 import getUploadFile from '../api/getUploadFile.js';
+import modifyUploadFile from '../api/modifyUploadFile.js';
 
 export default {
   name: "Drive",
   computed: {
     files(){
-      return this.$store.state.files.map((obj, i) => typeof i === 'number' ? { ...obj, file: JSON.parse(obj.file) } : null)
+      return this.$store.state.files.filter(obj => obj.trash === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj })
+    }
+  },
+  methods: {
+    async addTrash(e){
+      const dataId = Number(e.currentTarget.getAttribute('data-id'));
+      
+      await modifyUploadFile({ trash: true, id: dataId })
+      await getUploadFile().then(res => res.json()).then(files => {
+        this.$store.commit('addFiles', files)
+      })
     }
   },
   async created(){
@@ -66,3 +77,8 @@ export default {
   }
 };
 </script>
+
+<style>
+
+
+</style>
