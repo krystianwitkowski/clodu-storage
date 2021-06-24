@@ -9,8 +9,7 @@ Router.route("/")
 .post(async (req, res) => {
 
     const users = await db.collection('users').doc("0").get();
-
-    console.log(mimeTypes);
+    
     const update = await db.collection('users').doc("0").update({
         files: [...users.data().files, {
             id: users.data().files.length > 0 ? users.data().files.length : 0,
@@ -38,14 +37,25 @@ Router.route("/")
 })
 .put(async (req, res) => {
     const users = await db.collection('users').doc("0").get();
-    
-    const modify = users.data().files.map(file => file.id === Number(req.query.id) ? { ...file, trash: true } : { ...file })
-    
-    const update = await db.collection('users').doc("0").update({
-        files: [...modify]
-    });
 
-    res.json(update)
+    if(req.query.trash){
+        const modify = users.data().files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, trash: JSON.parse(req.query.trash) } : { ...file })
+    
+        const update = await db.collection('users').doc("0").update({
+            files: [...modify]
+        });
+    
+        res.json(update)
+    }
+    else if(req.query.starred){
+        const modify = users.data().files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, starred: JSON.parse(req.query.starred) } : { ...file })
+    
+        const update = await db.collection('users').doc("0").update({
+            files: [...modify]
+        });
+    
+        res.json(update)
+    }
 })
 
 module.exports = Router;

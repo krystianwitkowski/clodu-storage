@@ -24,7 +24,7 @@
                   >
                 </v-list-item-icon>
                 <div class="item-icons d-flex" style="position: absolute; top: -30px; right: 5px;">
-                  <v-list-item-icon class="ma-0">
+                  <v-list-item-icon class="ma-0" @click="addStarred" :data-id="file.id">
                     <v-icon color="#A9A9A9" style="font-size: 19px"
                       >mdi-star-outline</v-icon
                     >
@@ -57,14 +57,22 @@ export default {
   name: "Drive",
   computed: {
     files(){
-      return this.$store.state.files.filter(obj => obj.trash === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj })
+      return this.$store.state.files.filter(obj => obj.trash === false && obj.starred === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj })
     }
   },
   methods: {
     async addTrash(e){
       const dataId = Number(e.currentTarget.getAttribute('data-id'));
       
-      await modifyUploadFile({ trash: true, id: dataId })
+      await modifyUploadFile({ name: 'trash', trash: true, id: dataId })
+      await getUploadFile().then(res => res.json()).then(files => {
+        this.$store.commit('addFiles', files)
+      })
+    },
+    async addStarred(e){
+      const dataId = Number(e.currentTarget.getAttribute('data-id'));
+      
+      await modifyUploadFile({ name: 'starred', starred: true, id: dataId })
       await getUploadFile().then(res => res.json()).then(files => {
         this.$store.commit('addFiles', files)
       })
