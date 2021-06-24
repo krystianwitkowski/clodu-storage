@@ -13,15 +13,16 @@
           v-for="(item, i) in items"
           :key="i"
         >
-        <v-file-input
-          dense
-          v-model="item.file"
-          truncate-length="15"
-        ></v-file-input>
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
+            <v-file-input
+              class="file-send"
+              v-model="item.file"
+              truncate-length="15"
+              style="position: absolute; left: 0; width: 100%;"
+            ></v-file-input>
             <v-list-item-title style="color: #585858" v-text="item.text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -40,7 +41,6 @@ export default {
         return {
           selectedItem: 1,
           items: [
-              { text: 'Send folder', file: null, icon: 'mdi-folder' },
               { text: 'Send file', file: null, icon: 'mdi-file' }
           ],
         }
@@ -61,3 +61,17 @@ export default {
 
 }
 </script>
+
+<style>
+.v-input__slot {
+  margin-bottom: 0 !important;
+}
+
+.v-text-field__slot {
+  height: 40px;
+}
+
+.file-send .v-input__slot::before {
+  border: none !important;
+}
+</style>

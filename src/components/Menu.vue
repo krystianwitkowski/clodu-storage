@@ -11,8 +11,9 @@
       rounded
       width="120"
       height="45"
-      class="mt-8 mb-8 ml-7"
-      style="color: #888888;"
+      class="mt-8 mb-8 ml-7 btn-files"
+      color="#ffffff"
+      style="color: #BEBEBE;"
     >
       <v-icon>
         mdi-plus
@@ -96,4 +97,7 @@ export default {
   line-height: 1rem;
 }
 
+.btn-files {
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.15);
+}
 </style>
