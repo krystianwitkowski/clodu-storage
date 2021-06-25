@@ -70,5 +70,17 @@ module.exports = [
         icon: 'mdi-language-html5',
         mimetype: 'text/html',
         color: 'red'
-    },   
+    },
+    ////Text
+    {
+        icon: 'mdi-format-text',
+        mimetype: 'text/plain',
+        color: 'red'
+    },
+    ////Binary
+    {
+        icon: 'mdi-apps',
+        mimetype: 'application/octet-stream',
+        color: 'red'
+    },
 ]
