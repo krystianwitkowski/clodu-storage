@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isDropdownFiles: false,
-    files: []
+    files: [],
+    apiRequest: false
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     addFiles(state, payload){
       return state.files = payload
+    },
+    toggleApiRequest(state, payload){
+      return state.apiRequest = payload
     }
   },
   actions: {},

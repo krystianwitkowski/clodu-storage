@@ -10,7 +10,9 @@
           </v-col>
         </v-row>
     </v-main>
-    <Alert />
+    <transition name="fade">
+      <Alert v-show="apiRequest" />
+    </transition>
   </v-app>
 </template>
 
@@ -29,6 +31,9 @@ export default {
   computed: {
     isOverlayFolder(){
       return this.$store.state.isOverlayFolder;
+    },
+    apiRequest(){
+      return this.$store.state.apiRequest;
     }
   },
   methods: {
@@ -39,9 +44,19 @@ export default {
 
 <style>
 
-  .v-main__wrap {
-    display: flex;
-    flex-direction: row;
-  }
+.v-main__wrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 </style>

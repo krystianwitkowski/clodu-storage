@@ -1,13 +1,10 @@
 const express = require("express");
 const Router = express.Router();
-const admin = require("firebase-admin");
 const mimeTypes = require('../utilities/mime-types.js');
-
-const db = admin.firestore();
 
 Router.route("/")
 .post(async (req, res) => {
-
+    /*
     const users = await db.collection('users').doc("0").get();
     
     const update = await db.collection('users').doc("0").update({
@@ -22,8 +19,10 @@ Router.route("/")
     });
 
     res.json(update)
+    */
 })
 .get(async(req, res) => {
+    /*
     const users = await db.collection('users').doc("0").get();
     
     if(req.query.file){
@@ -34,8 +33,10 @@ Router.route("/")
     else {
         res.json(users.data().files)
     }
+    */
 })
 .put(async (req, res) => {
+    /*
     const users = await db.collection('users').doc("0").get();
 
     if(req.query.trash){
@@ -56,6 +57,7 @@ Router.route("/")
     
         res.json(update)
     }
+    */
 })
 
 module.exports = Router;
