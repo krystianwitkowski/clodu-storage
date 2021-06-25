@@ -47,11 +47,11 @@ export default {
     },
 
     async updated(){
-      if(this.items[1].file){
+      if(this.items[0].file){
 
         this.$store.commit('toggleDropdownFiles')
         
-        await createUploadFile(this.items[1].file);
+        await createUploadFile(this.items[0].file);
         await getUploadFile({ file: 'last' }).then(res => res.json()).then(files => {
           this.$store.commit('addFile', files)
         })

@@ -8,6 +8,18 @@
       </v-row>
       <v-row class="mt-7" style="max-width: 780px;">
         <v-col v-for="(file, index) in files" :key="index" style="padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
+          <div class="item-icons d-flex justify-end mb-2">
+            <v-list-item-icon class="ma-0 mr-1" @click="addStarred" :data-id="file.id">
+              <v-icon color="#A9A9A9" style="cursor: pointer; font-size: 19px"
+                >mdi-star-outline</v-icon
+              >
+            </v-list-item-icon>
+            <v-list-item-icon class="ma-0" @click="addTrash" :data-id="file.id">
+              <v-icon color="#A9A9A9" style="cursor: pointer; font-size: 19px"
+                >mdi-trash-can-outline</v-icon
+              >
+            </v-list-item-icon>
+          </div>
           <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px;">
             <v-list-item-group style="height: 100%;">
               <v-list-item 
@@ -23,18 +35,6 @@
                     >{{ file.icons.icon }}</v-icon
                   >
                 </v-list-item-icon>
-                <div class="item-icons d-flex" style="position: absolute; top: -30px; right: 5px;">
-                  <v-list-item-icon class="ma-0" @click="addStarred" :data-id="file.id">
-                    <v-icon color="#A9A9A9" style="font-size: 19px"
-                      >mdi-star-outline</v-icon
-                    >
-                  </v-list-item-icon>
-                  <v-list-item-icon class="ma-0" @click="addTrash" :data-id="file.id">
-                    <v-icon color="#A9A9A9" style="font-size: 19px"
-                      >mdi-trash-can-outline</v-icon
-                    >
-                  </v-list-item-icon>
-                </div>
                 <v-list-item-content style="flex: initial;">
                   <v-list-item-title style="color: #585858" class="subtitle-2"
                     >{{ file.file.name }}</v-list-item-title

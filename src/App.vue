@@ -10,18 +10,21 @@
           </v-col>
         </v-row>
     </v-main>
+    <Alert />
   </v-app>
 </template>
 
 <script>
 import Menu from './components/Menu.vue';
 import Board from './components/Board.vue';
+import Alert from './components/Alert.vue';
 
 export default {
   name: 'App',
   components: {
     Menu,
-    Board
+    Board,
+    Alert
   },
   computed: {
     isOverlayFolder(){
