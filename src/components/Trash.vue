@@ -6,12 +6,7 @@
           <v-divider style="position: relative; top: -22px;"></v-divider>
         </v-col>
       </v-row>
-      <v-row class="mt-8"> 
-        <v-col class="pa-0">
-          <p style="color: #585858" class="subtitle-2 pl-3">Trash</p>
-        </v-col>
-      </v-row>
-      <v-row class="mt-0" style="max-width: 852px;">
+      <v-row class="mt-8" style="max-width: 852px;">
         <v-col v-for="(file, index) in files" :key="index" style="margin: 12px; padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
           <div class="item-icons d-flex justify-end mb-1">
             <v-list-item-icon class="ma-0" @click="addRestore" :data-id="file.id">
