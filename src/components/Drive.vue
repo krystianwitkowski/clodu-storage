@@ -6,12 +6,8 @@
           <v-divider style="position: relative; top: -22px;"></v-divider>
         </v-col>
       </v-row>
-      <v-row class="mt-8"> 
-        <v-col class="pa-0">
-          <p style="color: #585858" class="subtitle-2 pl-3">Files</p>
-        </v-col>
-      </v-row>
-      <v-row class="mt-0" style="max-width: 852px;">
+      <v-row class="mt-8" style="max-width: 852px; position: relative;">
+        <UploadImage v-if="upload"/>
         <v-col v-for="(file, index) in files" :key="index" style="margin: 12px; padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
           <div class="item-icons d-flex justify-end mb-1">
             <v-list-item-icon class="ma-0" @click="addStarred" :data-id="file.id">
@@ -65,13 +61,15 @@
 
 <script>
 import Search from '../components/Search.vue';
+import UploadImage from '../components/UploadImage.vue';
 import getUploadFile from '../api/getUploadFile.js';
 import modifyUploadFile from '../api/modifyUploadFile.js';
 
 export default {
   name: "Drive",
   components: {
-    Search
+    Search,
+    UploadImage
   },
   computed: {
     files(){
@@ -82,6 +80,9 @@ export default {
       else {
         return this.$store.state.files.filter(obj => obj.trash === false && obj.starred === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj });
       }
+    },
+    upload(){
+      return this.$store.state.files.length === 0;
     }
   },
   methods: {
