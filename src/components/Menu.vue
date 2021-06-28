@@ -66,11 +66,11 @@ export default {
   },
   data(){
     return {
-      selectedItem: 1,
+      selectedItem: 0,
       items: [
-        { text: 'My drive', path: '/drive', icon: 'mdi-folder-download-outline' },
-        { text: 'Starred', path: '/starred', icon: 'mdi-star-outline' },
-        { text: 'Trash', path: '/trash', icon: 'mdi-trash-can-outline' },
+        { text: 'My drive', path: '/dashboard/drive', icon: 'mdi-folder-download-outline' },
+        { text: 'Starred', path: '/dashboard/starred', icon: 'mdi-star-outline' },
+        { text: 'Trash', path: '/dashboard/trash', icon: 'mdi-trash-can-outline' },
       ],
     }
   },

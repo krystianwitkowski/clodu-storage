@@ -8,7 +8,8 @@ export default new Vuex.Store({
     isDropdownFiles: false,
     files: [],
     apiRequest: { text: '', value: false },
-    search: ''
+    search: '',
+    currentTab: 'Drive'
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     updateSearch(state, payload){
       return state.search = payload
+    },
+    updateCurrentTab(state, payload){
+      return state.currentTab = payload
     }
   },
   actions: {},

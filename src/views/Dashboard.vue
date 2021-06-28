@@ -6,7 +6,7 @@
             <Menu />
           </v-col>
           <v-col cols="9" class="pb-0">
-            fsdfsdfs
+            <router-view></router-view>
           </v-col>
         </v-row>
     </v-main>
@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import Menu from './Menu.vue';
-import Alert from './Alert.vue';
+import Menu from '../components/Menu.vue';
+import Alert from '../components/Alert.vue';
 
 export default {
-  name: 'Board',
+  name: 'Dashboard',
   components: {
     Menu,
     Alert

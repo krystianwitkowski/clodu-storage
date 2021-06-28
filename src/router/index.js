@@ -1,32 +1,60 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Drive from '../views/Drive.vue'
-import Starred from '../views/Starred.vue'
-import Trash from '../views/Trash.vue'
+import Register from '../views/Register.vue'
+import Dashboard from '../views/Dashboard.vue'
+
+import Drive from '../components/Drive.vue'
+import Starred from '../components/Starred.vue'
+import Trash from '../components/Starred.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Drive',
-    component: Drive
+    component: Dashboard,
+    redirect: '/dashboard/drive',
+    children: [
+      {
+        path: '/dashboard/drive',
+        component: Drive
+      }
+    ]
   },
   {
-    path: '/drive',
-    name: 'Drive',
-    component: Drive
+    path: 'register',
+    component: Register
   },
   {
-    path: '/starred',
-    name: 'Starred',
-    component: Starred
+    path: '/dashboard/drive',
+    component: Dashboard,
+    children: [
+      {
+        path: '/dashboard/drive',
+        component: Drive
+      }
+    ]
   },
   {
-    path: '/trash',
-    name: 'Trash',
-    component: Trash
+    path: '/dashboard/starred',
+    component: Dashboard,
+    children: [
+      {
+        path: '/dashboard/starred',
+        component: Starred
+      }
+    ]
+  },
+  {
+    path: '/dashboard/trash',
+    component: Dashboard,
+    children: [
+      {
+        path: '/dashboard/trash',
+        component: Trash
+      }
+    ]
   }
 ]
 
