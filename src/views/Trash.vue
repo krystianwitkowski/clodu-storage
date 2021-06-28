@@ -76,11 +76,16 @@ export default {
     methods: {
       async addRestore(e){
         const dataId = Number(e.currentTarget.getAttribute('data-id'));
-        
+
+        this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: true })
+
         await modifyUploadFile({ name: 'trash', trash: false, id: dataId })
         await getUploadFile().then(res => res.json()).then(files => {
           this.$store.commit('addFiles', files)
         })
+
+        this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: false })
+
       },
       clearSearch(){
         this.$store.commit('updateSearch', '');

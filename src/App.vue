@@ -11,7 +11,7 @@
         </v-row>
     </v-main>
     <transition name="fade">
-      <Alert v-show="apiRequest" />
+      <Alert v-show="apiRequest.value" />
     </transition>
   </v-app>
 </template>

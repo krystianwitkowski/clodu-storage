@@ -50,13 +50,13 @@ export default {
       if(this.items[0].file){
 
         this.$store.commit('toggleDropdownFiles')
-        this.$store.commit('toggleApiRequest', true)
+        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: true })
 
         await createUploadFile(this.items[0].file);
         await getUploadFile({ file: 'last' }).then(res => res.json()).then(files => {
           this.$store.commit('addFile', files)
         })
-        this.$store.commit('toggleApiRequest', false)
+        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: false })
       }
     },
 

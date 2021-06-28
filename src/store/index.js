@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     isDropdownFiles: false,
     files: [],
-    apiRequest: false,
+    apiRequest: { text: '', value: false },
     search: ''
   },
   mutations: {

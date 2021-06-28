@@ -87,19 +87,28 @@ export default {
   methods: {
     async addTrash(e){
       const dataId = Number(e.currentTarget.getAttribute('data-id'));
-      
+
+      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: true })
+
       await modifyUploadFile({ name: 'trash', trash: true, id: dataId })
       await getUploadFile().then(res => res.json()).then(files => {
         this.$store.commit('addFiles', files)
       })
+
+      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: false })
+      
     },
     async addStarred(e){
       const dataId = Number(e.currentTarget.getAttribute('data-id'));
       
+      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: true })
+
       await modifyUploadFile({ name: 'starred', starred: true, id: dataId })
       await getUploadFile().then(res => res.json()).then(files => {
         this.$store.commit('addFiles', files)
       })
+      
+      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: false })
     },
     clearSearch(){
       this.$store.commit('updateSearch', '')
