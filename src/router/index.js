@@ -6,7 +6,7 @@ import Dashboard from '../views/Dashboard.vue'
 
 import Drive from '../components/Drive.vue'
 import Starred from '../components/Starred.vue'
-import Trash from '../components/Starred.vue'
+import Trash from '../components/Trash.vue'
 
 Vue.use(VueRouter)
 
