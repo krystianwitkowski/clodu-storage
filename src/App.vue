@@ -2,10 +2,10 @@
   <v-app>
     <v-main class="d-flex flex-row" style="position: relative;">
         <v-row>
-          <v-col cols="3">
+          <v-col cols="3" class="pb-0">
             <Menu />
           </v-col>
-          <v-col cols="9">
+          <v-col cols="9" class="pb-0">
             <Board />
           </v-col>
         </v-row>

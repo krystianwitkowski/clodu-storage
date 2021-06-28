@@ -2,7 +2,6 @@
   <v-card
       class="mx-auto pr-4"
       width="100%"
-      height="100vh"
       tile
       style="position: relative;"
     >

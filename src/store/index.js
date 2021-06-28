@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     isDropdownFiles: false,
     files: [],
-    apiRequest: false
+    apiRequest: false,
+    search: ''
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     toggleApiRequest(state, payload){
       return state.apiRequest = payload
+    },
+    updateSearch(state, payload){
+      return state.search = payload
     }
   },
   actions: {},
