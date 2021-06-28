@@ -100,12 +100,17 @@ export default {
       await getUploadFile().then(res => res.json()).then(files => {
         this.$store.commit('addFiles', files)
       })
+    },
+    clearSearch(){
+      this.$store.commit('updateSearch', '')
     }
   },
   async created(){
     await getUploadFile().then(res => res.json()).then(files => {
       this.$store.commit('addFiles', files)
     })
+
+    this.clearSearch()
   }
 };
 </script>

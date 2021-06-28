@@ -1,18 +1,28 @@
 <template>
-  <v-container>
-    <v-container class="pa-4 mt-5">
-      <v-row>
+  <v-container class="pa-8 pt-0 pb-0">
+      <v-row class="ma-0" style="z-index: 999; height: 60px;">
+        <v-col class="pa-0">
+          <Search />
+          <v-divider style="position: relative; top: -22px;"></v-divider>
+        </v-col>
+      </v-row>
+      <v-row class="mt-8"> 
         <v-col class="pa-0">
           <p style="color: #585858" class="subtitle-2 pl-3">Trash</p>
         </v-col>
       </v-row>
-      <v-row class="mt-7" style="max-width: 780px;">
-        <v-col v-for="(file, index) in files" :key="index" style="padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
-          <div class="item-icons d-flex justify-end mb-2">
+      <v-row class="mt-0" style="max-width: 852px;">
+        <v-col v-for="(file, index) in files" :key="index" style="margin: 12px; padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
+          <div class="item-icons d-flex justify-end mb-1">
             <v-list-item-icon class="ma-0" @click="addRestore" :data-id="file.id">
-              <v-icon color="#A9A9A9" style="cursor: pointer; font-size: 19px"
-                >mdi-restore</v-icon
+              <v-btn
+                icon
+                color="#DCDCDC"
+                width="30"
+                height="30"
               >
+                <v-icon style="font-size: 19px;">mdi-restore</v-icon>
+              </v-btn>
             </v-list-item-icon>
           </div>
           <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px;">
@@ -26,7 +36,7 @@
                 "
               >
                 <v-list-item-icon class="ma-0" style="align-self: center;">
-                  <v-icon color="#FC8A17" style="font-size: 28px"
+                  <v-icon :color="file.icons.color" style="font-size: 28px"
                     >{{ file.icons.icon }}</v-icon
                   >
                 </v-list-item-icon>
@@ -40,20 +50,27 @@
           </a>
         </v-col>
       </v-row>
-    </v-container>
   </v-container>
 </template>
-
-
 <script>
+import Search from '../components/Search.vue';
 import getUploadFile from '../api/getUploadFile.js';
 import modifyUploadFile from '../api/modifyUploadFile.js';
 
 export default {
     name: 'Trash',
+    components: {
+      Search
+    },
     computed: {
       files(){
-        return this.$store.state.files.filter(obj => obj.trash).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj })
+        if(this.$store.state.search.length > 0){
+          return this.$store.state.files.filter(obj => obj.trash).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj }).filter(file => file.file.name.includes(this.$store.state.search))
+        }
+
+        else {
+          return this.$store.state.files.filter(obj => obj.trash).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj })
+        }
       }
     },
     methods: {
@@ -64,12 +81,17 @@ export default {
         await getUploadFile().then(res => res.json()).then(files => {
           this.$store.commit('addFiles', files)
         })
+      },
+      clearSearch(){
+        this.$store.commit('updateSearch', '');
       }
     },
     async created(){
       await getUploadFile().then(res => res.json()).then(files => {
         this.$store.commit('addFiles', files)
       })
+
+      this.clearSearch();
     }
 }
 </script>
