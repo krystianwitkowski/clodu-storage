@@ -54,7 +54,7 @@
     </v-row>
     <v-row class="mt-4">
       <v-col>
-        <p style="font-size: 14px; text-align: right; color: #999">Already have an account ? <a href="#" style="text-decoration: none; color: #2B81D6;">Sign in</a></p>
+        <p style="font-size: 14px; text-align: right; color: #999">Already have an account ? <router-link to="/signin" style="text-decoration: none;">Sign in</router-link></p>
       </v-col>
     </v-row>
     <v-divider></v-divider>

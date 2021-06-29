@@ -30,7 +30,7 @@
     <v-divider></v-divider>
     <v-row class="mt-4">
       <v-col>
-        <p style="font-size: 14px; text-align: right; color: #999">Already have an account ? <a href="#" style="text-decoration: none; color: #2B81D6;">Sign up</a></p>
+        <p style="font-size: 14px; text-align: right; color: #999">Already have an account ? <router-link to="/signup" style="text-decoration: none;">Sign up</router-link></p>
       </v-col>
     </v-row>
         <v-btn class="mt-5" width="100%" color="primary" height="42px" style="text-transform: capitalize;">

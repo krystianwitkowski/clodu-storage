@@ -1,18 +1,18 @@
 <template>
 <v-app>
     <v-main>
-      <FormLogin />
+      <FormRegister />
     </v-main>
 </v-app>
 </template>
 
 <script>
-import FormLogin from '../components/FormLogin.vue';
+import FormRegister from '../components/FormRegister.vue';
 
     export default {
-        name: 'Login',
+        name: 'SignUp',
         components: {
-          FormLogin
+          FormRegister
         }
     }
 </script>
