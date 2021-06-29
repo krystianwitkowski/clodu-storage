@@ -7,6 +7,7 @@
             label="Name"
             outlined
             dense
+            v-model="user.name"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -17,6 +18,7 @@
             label="Email"
             outlined
             dense
+            v-model="user.email"
           ></v-text-field>
         </v-col>
     </v-row>
@@ -28,6 +30,7 @@
             type="password"
             outlined
             dense
+            v-model="user.password"
           ></v-text-field>
         </v-col>
           <v-btn
@@ -45,6 +48,7 @@
             type="password"
             outlined
             dense
+            v-model="user.repeatPassword"
           ></v-text-field>
         </v-col>
     </v-row>
@@ -54,7 +58,7 @@
       </v-col>
     </v-row>
     <v-divider></v-divider>
-        <v-btn class="mt-9" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
+        <v-btn @click="handleClick" class="mt-9" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
           Sign up
         </v-btn>
     </v-container>
@@ -62,8 +66,26 @@
 </template>
 
 <script>
+
+import createUsers from '../api/createUsers.js'
+
 export default {
     name: 'FormRegister',
+    data(){
+      return {
+        user: {
+          name: '',
+          email: '',
+          password: '',
+          repeatPassword: ''
+        } 
+      }
+    },
+    methods:{
+      async handleClick(){
+        await createUsers(JSON.stringify(this.user)).then(res => res.json()).then(res => console.log('success' + res))
+      }
+    }
 }
 
 </script>
