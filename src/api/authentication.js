@@ -1,5 +1,5 @@
 export default async (user) => {
-    const url = `http://localhost:5001/api/users?name=${user.name}&password=${user.password}`;
+    const url = `http://localhost:5001/api/authentication?name=${user.name}&password=${user.password}`;
     
     return fetch(url, {
         headers: {

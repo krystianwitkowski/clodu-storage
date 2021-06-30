@@ -11,12 +11,17 @@ app.use(bodyParser.json())
 app.use(helmet());
 app.use(fileUpload());
 
-//// Routes
+/* Routes */
 const uploadFile = require('./routes/uploadFile.js');
 const users = require('./routes/users.js');
+const authentication = require('./routes/authentication.js');
+
+/* Middlewares */
+const rateLimiter = require('./middlewares/rateLimiter.js');
 
 app.use('/api/uploadFile', uploadFile);
 app.use('/api/users', users);
+app.use('/api/authentication', rateLimiter, authentication);
 
 app.listen(process.env.PORT);
 
