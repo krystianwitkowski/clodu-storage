@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 
 import SignUp from '../views/SignUp.vue'
 import SignIn from '../views/SignIn.vue'
-//import Dashboard from '../views/Dashboard.vue'
+import Dashboard from '../views/Dashboard.vue'
 
-//import Drive from '../components/Drive.vue'
-//import Starred from '../components/Starred.vue'
-//import Trash from '../components/Trash.vue'
+import Drive from '../components/Drive.vue'
+import Starred from '../components/Starred.vue'
+import Trash from '../components/Trash.vue'
 
 Vue.use(VueRouter)
 
@@ -23,30 +23,13 @@ const routes = [
   {
     path: '/signup',
     component: SignUp
-  }
-
-  /*
-  {
-    path: '/',
-    component: Dashboard,
-    redirect: '/dashboard/drive',
-    children: [
-      {
-        path: '/dashboard/drive',
-        component: Drive
-      }
-    ]
-  },
-  {
-    path: 'register',
-    component: Register
   },
   {
     path: '/dashboard/drive',
     component: Dashboard,
     children: [
       {
-        path: '/dashboard/drive',
+        path: '',
         component: Drive
       }
     ]
@@ -56,7 +39,7 @@ const routes = [
     component: Dashboard,
     children: [
       {
-        path: '/dashboard/starred',
+        path: '',
         component: Starred
       }
     ]
@@ -66,12 +49,11 @@ const routes = [
     component: Dashboard,
     children: [
       {
-        path: '/dashboard/trash',
+        path: '',
         component: Trash
       }
     ]
   }
-  */
 ]
 
 const router = new VueRouter({

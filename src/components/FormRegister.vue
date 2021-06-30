@@ -1,5 +1,5 @@
 <template>
-  <v-form class="form-register d-flex align-center" v-model="valid" style="height: 100%">
+  <v-form class="form-register d-flex align-center" v-model="valid" style="height: 100%; width: 100%;">
     <v-container class="form-register-shadow pl-12 pr-12 pt-12 pb-12" style="box-shadow: 0 0 21px 0 rgb(0 0 0 / 3%); background: #ffffff; border-radius: 8px; max-width: 360px;">
       <v-row class="mt-0 pl-2 pr-2">
         <v-col style="padding: 0px; position: relative;">
@@ -27,7 +27,7 @@
         <v-col style="padding: 0px">
          <v-text-field
             label="Password"
-            type="password"
+            :type="currentTypePassword"
             outlined
             dense
             v-model="user.password"
@@ -36,8 +36,9 @@
           <v-btn
             icon
             color="#B0B0B0"
+            @click="handleClickIcon"
           >
-            <v-icon>mdi-eye-outline</v-icon>
+            <v-icon>{{ visibleEyeIcon }}</v-icon>
           </v-btn>
     </v-row>
     <v-divider></v-divider>
@@ -45,7 +46,7 @@
         <v-col style="padding: 0px">
          <v-text-field
             label="Repeat password"
-            type="password"
+            :type="currentTypePassword"
             outlined
             dense
             v-model="user.repeatPassword"
@@ -58,7 +59,7 @@
       </v-col>
     </v-row>
     <v-divider></v-divider>
-        <v-btn @click="handleClick" class="mt-9" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
+        <v-btn @click="handleClickButton" class="mt-9" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
           Sign up
         </v-btn>
     </v-container>
@@ -78,12 +79,44 @@ export default {
           email: '',
           password: '',
           repeatPassword: ''
-        } 
+        },
+        visiblePassword: false
+      }
+    },
+    computed: {
+      visibleEyeIcon(){
+        if(this.visiblePassword){
+          return 'mdi-eye-outline'
+        }
+
+        else {
+          return 'mdi-eye-off-outline'
+        }
+      },
+      currentTypePassword(){
+        if(this.visiblePassword){
+          return 'text'
+        }
+
+        else {
+          return 'password'
+        }
       }
     },
     methods:{
-      async handleClick(){
-        await createUsers(JSON.stringify(this.user)).then(res => res.json()).then(res => console.log('success' + res))
+      async handleClickButton(){
+        try {
+          const res = await createUsers(JSON.stringify(this.user))
+
+          if(res.status === 201){
+            this.$router.push({ path: '/signin'})
+          }
+        } catch {
+          console.log('Something went wrong');
+        }
+      },
+      handleClickIcon(){
+        this.visiblePassword = !this.visiblePassword
       }
     }
 }
