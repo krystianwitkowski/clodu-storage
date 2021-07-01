@@ -23,7 +23,8 @@ Router.route('/')
         title: 'Incorrect name, email, password and repeat password',
         status: 400,
         detail: 'The fields cannot be empty. Try to complete all fields'
-      }
+      },
+      validate: ['This field is required', 'This field is required', 'This field is required', 'This field is required']
     })
   }
 
@@ -34,7 +35,8 @@ Router.route('/')
         title: 'Incorrect email',
         status: 400,
         detail: 'The field email is incorrect. Check characters like @ or .'
-      }
+      },
+      validate: ['', 'This email is incorrect', '', '']
     })
   }
 
@@ -45,7 +47,8 @@ Router.route('/')
         title: 'Incorrect passwords',
         status: 400,
         detail: 'The fields passwords are empty.'
-      }
+      },
+      validate: ['', '', 'This field is required', 'This field is required']
     })
   }
 
@@ -56,7 +59,8 @@ Router.route('/')
         title: 'Incorrect passwords',
         status: 400,
         detail: 'The fields passwords are not the same'
-      }
+      },
+      validate: ['', '', 'This passwords are not the same', 'This passwords are not the same']
     })
   }
 
@@ -83,7 +87,8 @@ Router.route('/')
             title: 'Such user already exists',
             status: 409,
             detail: 'A user with this name and email already exists'
-          }
+          },
+          validate: ['', '', '', 'Such user already exists']
         })
     }
 
@@ -115,10 +120,11 @@ Router.route('/')
         res.status(500).json({
           error: {
             type: '/errors/server',
-            title: 'Something went wrong with server',
+            title: 'Something went wrong',
             status: 500,
             detail: 'The server did not respond. Try again'
-          }
+          },
+          validate: ['', '', '', 'Something went wrong. Try again']
         })
       }
     }

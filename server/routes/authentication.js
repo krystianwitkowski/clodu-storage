@@ -15,14 +15,39 @@ Router.route('/')
 .get(async(req, res) => {
     const { name, password } = req.query;
   
-    if(name.length === 0 && password.length === 0 || name.length === 0 && password.length > 0 || name.length > 0 && password.length === 0){
+    if(name.length === 0 && password.length === 0){
       res.status(401).json({
         error: {
-          type: '/errors/incorrect-name-password',
+          type: '/errors/auth/incorrect-name-password',
           title: 'Incorrect name and password',
           status: 401,
-          detail: 'Authentication failed due to incorrect username or password.'
-        }
+          detail: 'Authentication failed due to incorrect name or password'
+        },
+        validate: ['This field is required', 'This field is required']
+      })
+    }
+
+    else if (name.length === 0 && password.length > 0){
+      res.status(401).json({
+        error: {
+          type: '/errors/auth/incorrect-name',
+          title: 'Incorrect name',
+          status: 401,
+          detail: 'Authentication failed due to incorrect name'
+        },
+        validate: ['This field is required', '']
+      })
+    }
+
+    else if (name.length > 0 && password.length === 0){
+      res.status(401).json({
+        error: {
+          type: '/errors/auth/incorrect-password',
+          title: 'Incorrect password',
+          status: 401,
+          detail: 'Authentication failed due to incorrect password'
+        },
+        validate: ['', 'This field is required']
       })
     }
   
@@ -47,11 +72,12 @@ Router.route('/')
           else {
             res.status(401).json({
               error: {
-                type: '/errors/incorrect-name-password',
-                title: 'Incorrect name and password',
+                type: '/errors/auth/failed',
+                title: 'Authentication failed',
                 status: 401,
-                detail: 'Authentication failed due to incorrect username or password.'
-              }
+                detail: 'Authentication failed due to incorrect name or password'
+              },
+              validate: ['', 'Authentication failed']
             })
           }
         }
@@ -59,22 +85,24 @@ Router.route('/')
         else {
           res.status(401).json({
             error: {
-              type: '/errors/incorrect-name-password',
-              title: 'Incorrect name and password',
+              type: '/errors/auth/failed',
+              title: 'Authentication failed',
               status: 401,
-              detail: 'Authentication failed due to incorrect username or password.'
-            }
+              detail: 'Authentication failed due to incorrect name or password'
+            },
+            validate: ['', 'Authentication failed']
           })
         }
   
       } catch {
         res.status(401).json({
           error: {
-            type: '/errors/incorrect-name-password',
-            title: 'Incorrect name and password',
+            type: '/errors/auth/failed',
+            title: 'Authentication failed',
             status: 401,
-            detail: 'Authentication failed due to incorrect username or password.'
-          }
+            detail: 'Authentication failed due to incorrect name or password.'
+          },
+          validate: ['', 'Authentication failed']
         })
       }
     }

@@ -9,11 +9,12 @@
             outlined
             dense
           ></v-text-field>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[0] }}</p>
         </v-col>
       </v-row>
       <v-divider></v-divider>
-    <v-row class="mt-6 pl-2 pr-2">
-        <v-col style="padding: 0px">
+    <v-row class="mt-6 pl-2 pr-2" style="position: relative;">
+        <v-col style="padding: 0px; padding-right: 38px; position: relative;">
          <v-text-field
             label="Password"
             :type="currentTypePassword"
@@ -21,11 +22,13 @@
             outlined
             dense
           ></v-text-field>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[1] }}</p>
         </v-col>
           <v-btn
             icon
             color="#B0B0B0"
             @click="handleClickIcon"
+            style="position: absolute; right: 12px;"
           >
             <v-icon>{{ visibleEyeIcon }}</v-icon>
           </v-btn>
@@ -54,27 +57,16 @@ export default {
           name: '',
           password: ''
         },
+        validate: ['', ''],
         visiblePassword: false
       }
     },
     computed: {
       visibleEyeIcon(){
-        if(this.visiblePassword){
-          return 'mdi-eye-outline'
-        }
-
-        else {
-          return 'mdi-eye-off-outline'
-        }
+        return this.visiblePassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline';
       },
       currentTypePassword(){
-        if(this.visiblePassword){
-          return 'text'
-        }
-
-        else {
-          return 'password'
-        }
+        return this.visiblePassword ? 'text' : 'password'
       }
     },
     methods: {
@@ -84,12 +76,17 @@ export default {
       async handleClickSubmit(){
         try {
           const res = await authentication(JSON.parse(JSON.stringify(this.user)))
+          const body = await res.json();
 
             if(res.status === 200){
               
-              localStorage.setItem('tokens', JSON.stringify(await res.json()))
+              localStorage.setItem('tokens', JSON.stringify(body))
 
               this.$router.push({ path: '/dashboard/drive' })
+            }
+
+            else {
+              this.validate = body.validate
             }
 
         } catch {
