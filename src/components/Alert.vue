@@ -1,14 +1,14 @@
 <template>
     <v-alert
-      width="340px"
+      width="320px"
       dense
       text
       prominent
       type="info"
-      icon="mdi-cloud-alert"
-      style="position: absolute; top: 12px; right: 12px;"
+      :icon="apiRequest.icon"
+      style="position: absolute; top: 25px; right: 25px;"
     >
-      {{ api.text }}
+      {{ apiRequest.text }}
     </v-alert>
 </template>
 
@@ -16,7 +16,7 @@
     export default {
         name: 'Alert',
         computed: {
-          api(){
+          apiRequest(){
             return this.$store.state.apiRequest;
           }
         }

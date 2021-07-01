@@ -7,9 +7,8 @@ export default new Vuex.Store({
   state: {
     isDropdownFiles: false,
     files: [],
-    apiRequest: { text: '', value: false },
-    search: '',
-    currentTab: 'Drive'
+    apiRequest: { text: '', value: false, icon: '' },
+    search: ''
   },
   mutations: {
     toggleDropdownFiles(state, payload){
