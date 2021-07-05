@@ -1,4 +1,4 @@
-export default async (user) => {
+const post = async (user) => {
     const url = 'http://localhost:5001/api/users';
 
     return fetch(url, {
@@ -8,4 +8,8 @@ export default async (user) => {
         method: 'POST',
         body: user
     });
+}
+
+export default {
+    post
 }

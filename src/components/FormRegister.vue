@@ -75,7 +75,7 @@
 
 <script>
 
-import createUsers from '../api/createUsers.js'
+import UsersAPI from '../api/users.js'
 
 export default {
     name: 'FormRegister',
@@ -103,7 +103,7 @@ export default {
     methods:{
       async handleClickButton(){
         try {
-          const res = await createUsers(JSON.stringify(this.user))
+          const res = await UsersAPI.post(JSON.stringify(this.user))
 
           if(res.status === 201){
             this.$router.push({ path: '/signin'})
