@@ -7,7 +7,7 @@
       style="position: relative;"
     >
     <v-btn
-      @click="toggleDropdownFiles"
+      @click="handleClick"
       rounded
       width="120"
       height="45"
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    toggleDropdownFiles(){
+    handleClick(){
       this.$store.state.isDropdownFiles = !this.$store.state.isDropdownFiles
     }
   }

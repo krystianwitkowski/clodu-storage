@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import createUploadFile from '../api/createUploadFile.js';
-import getUploadFile from '../api/getUploadFile.js';
+/* API */
+import FilesAPI from '../api/files.js';
 
 export default {
     name: 'DropdownFiles',
@@ -50,13 +50,15 @@ export default {
       if(this.items[0].file){
 
         this.$store.commit('toggleDropdownFiles')
-        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: true })
+        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: true, icon: 'mdi-cloud-sync-outline' })
 
-        await createUploadFile(this.items[0].file);
-        await getUploadFile({ file: 'last' }).then(res => res.json()).then(files => {
-          this.$store.commit('addFile', files)
-        })
-        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: false })
+        await FilesAPI.post(this.items[0].file);
+
+        const FilesGET = await FilesAPI.get({ id: 'last' });
+        
+        this.$store.commit('addFile', await FilesGET.json())
+
+        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: false, icon: 'mdi-cloud-sync-outline' })
       }
     },
 

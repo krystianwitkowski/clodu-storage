@@ -11,7 +11,7 @@
         </v-row>
     </v-main>
     <transition name="fade">
-      <Alert v-show="apiRequest.value" />
+      <Alert v-if="FilesAPIStatus" />
     </transition>
   </v-app>
 </template>
@@ -30,9 +30,12 @@ export default {
     isOverlayFolder(){
       return this.$store.state.isOverlayFolder;
     },
-    apiRequest(){
-      return this.$store.state.apiRequest;
+    FilesAPIStatus(){
+      return this.$store.state.FilesAPIStatus.loading;
     }
+  },
+  destroyed(){
+    this.$store.commit('updateFilesAPIStatus', { text: '', loading: false, icon: ''})
   }
 };
 </script>

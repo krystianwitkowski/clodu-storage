@@ -10,7 +10,7 @@
             dense
             v-model="user.name"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[0] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[0] }}</p>
         </v-col>
       </v-row>
       <v-divider></v-divider>
@@ -22,7 +22,7 @@
             dense
             v-model="user.email"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[1] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[1] }}</p>
         </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -35,7 +35,7 @@
             dense
             v-model="user.password"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[2] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[2] }}</p>
         </v-col>
           <v-btn
             icon
@@ -56,7 +56,7 @@
             dense
             v-model="user.repeatPassword"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[3] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[3] }}</p>
         </v-col>
     </v-row>
     <v-row class="mt-4">
@@ -113,12 +113,9 @@ export default {
             const body = await res.json()
 
             this.validate = body.validate
-            
-            this.$store.commit('toggleApiRequest', { text: 'Something went wrong', value: false, icon: 'mdi-information-outline' })
-
           }
         } catch {
-          this.$store.commit('toggleApiRequest', { text: 'Something went wrong', value: true, icon: 'mdi-information-outline' })
+            this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
         }
       },
       handleClickIcon(){

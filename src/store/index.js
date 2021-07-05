@@ -7,8 +7,10 @@ export default new Vuex.Store({
   state: {
     isDropdownFiles: false,
     files: [],
-    apiRequest: { text: '', value: false, icon: '' },
-    search: ''
+    FilesAPIStatus: { text: '', loading: false, icon: '' },
+    FormAPIStatus: { text: '', loading: false, icon: '' },
+    search: '',
+    synchronize: true
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -20,20 +22,34 @@ export default new Vuex.Store({
         return state.isDropdownFiles = !state.isDropdownFiles
       }
     },
-    addFile(state, payload){
-      return state.files = [...state.files, payload[0]]
-    },
     addFiles(state, payload){
       return state.files = payload
     },
-    toggleApiRequest(state, payload){
-      return state.apiRequest = payload
+    addFile(state, payload){
+      return state.files = [...state.files, ...payload]
+    },
+    updateFile(state, payload){
+      return state.files = state.files.map(file => file.id === payload.id ? { ...payload } : { ...file })
+    },
+    updateFilesAPIStatus(state, payload){
+      return state.FilesAPIStatus = payload
+    },
+    updateFormAPIStatus(state, payload){
+      return state.FormAPIStatus = payload
     },
     updateSearch(state, payload){
       return state.search = payload
     },
-    updateCurrentTab(state, payload){
-      return state.currentTab = payload
+    isSynchronize(state, payload){
+      return state.synchronize = payload
+    }
+  },
+  getters: {
+    searchFiles: (state) => (cb) => {
+      return state.files.filter(cb).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj }).filter(file => file.file.name.includes(state.search))
+    },
+    files: (state) => (cb) => {
+      return state.files.filter(cb).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj });
     }
   },
   actions: {},

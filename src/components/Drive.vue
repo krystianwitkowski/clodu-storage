@@ -6,82 +6,63 @@
           <v-divider style="position: relative; top: -22px;"></v-divider>
         </v-col>
       </v-row>
-      <v-row class="mt-8" style="max-width: 852px; position: relative;">
-        <UploadImage v-if="upload"/>
-        <File @addTrash="addTrash" @addStarred="addStarred" v-for="file in files" :key="file.id" :file="file" />
+      <v-row class="mt-8" style="max-width: 852px;">
+        <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
       </v-row>
   </v-container>
 </template>
 
 <script>
+/* API */
+import FilesAPI from '../api/files.js';
+/* Components */
 import Search from '../components/Search.vue';
 import File from '../components/File.vue';
-import UploadImage from '../components/UploadImage.vue';
-import getUploadFile from '../api/getUploadFile.js';
-import modifyUploadFile from '../api/modifyUploadFile.js';
 
 export default {
   name: "Drive",
   components: {
     Search,
-    UploadImage,
     File
   },
   computed: {
     files(){
       if(this.$store.state.search.length > 0){
-        return this.$store.state.files.filter(obj => obj.trash === false && obj.starred === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj }).filter(file => file.file.name.includes(this.$store.state.search))
+        return this.$store.getters.searchFiles(obj => obj.trash === false && obj.starred === false)
       }
 
       else {
-        return this.$store.state.files.filter(obj => obj.trash === false && obj.starred === false).map((obj, i) => typeof i === "number" ? {...obj, file: JSON.parse(obj.file)} : { ...obj });
+        return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
       }
-    },
-    upload(){
-      return this.$store.state.files.length === 0;
     }
   },
-  methods: {
-    async addTrash(e){
-      const dataId = Number(e.currentTarget.getAttribute('data-id'));
+  methods:{
+    async getSynchronize(){
+      try {
+        this.$store.commit('updateFilesAPIStatus', { text: 'Synchronization', loading: true, icon: 'mdi-cloud-sync-outline' })
+        
+        const res = await FilesAPI.get();
 
-      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: true })
+          if(res.status === 200){
+            this.$store.commit('addFiles', await res.json())
+            this.$store.commit('updateFilesAPIStatus', { text: 'Synchronization', loading: false, icon: 'mdi-cloud-sync-outline' })
+          }
 
-      await modifyUploadFile({ name: 'trash', trash: true, id: dataId })
-      await getUploadFile().then(res => res.json()).then(files => {
-        this.$store.commit('addFiles', files)
-      })
-
-      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: false })
-      
-    },
-    async addStarred(e){
-      const dataId = Number(e.currentTarget.getAttribute('data-id'));
-      
-      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: true })
-
-      await modifyUploadFile({ name: 'starred', starred: true, id: dataId })
-      await getUploadFile().then(res => res.json()).then(files => {
-        this.$store.commit('addFiles', files)
-      })
-      
-      this.$store.commit('toggleApiRequest', { text: 'Action in progress', value: false })
-    },
-    clearSearch(){
-      this.$store.commit('updateSearch', '')
+          else {
+            this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-cloud-sync-outline' })
+          }
+      } catch {
+          this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-cloud-sync-outline' })
+      }
     }
   },
-  async created(){
-    await getUploadFile().then(res => res.json()).then(files => {
-      this.$store.commit('addFiles', files)
-    })
+  mounted(){
+    if(this.$store.state.synchronize){
+      this.getSynchronize();
 
-    this.clearSearch()
+      this.$store.commit('isSynchronize', false)
+    }
+    this.$store.commit('updateSearch', '')
   }
 };
 </script>
-
-<style>
-
-
-</style>

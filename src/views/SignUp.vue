@@ -3,7 +3,7 @@
   <v-main style="position: relative;">
     <FormRegister />
     <transition name="fetch-form-api">
-      <Alert v-if="apiRequestStatus" />
+      <Alert v-if="FormAPIStatus" />
     </transition>
   </v-main>
 </v-app>
@@ -20,12 +20,12 @@ export default {
       Alert
     },
     computed: {
-      apiRequestStatus(){
-        return this.$store.state.apiRequest.value;
+      FormAPIStatus(){
+        return this.$store.state.FormAPIStatus.loading;
       }
     },
     destroyed(){
-      this.$store.commit('toggleApiRequest', { text: '', value: false, icon: ''})
+      this.$store.commit('updateFormAPIStatus', { text: '', loading: false, icon: ''})
     }
 }
 

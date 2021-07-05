@@ -5,10 +5,10 @@
       text
       prominent
       type="info"
-      :icon="apiRequest.icon"
+      :icon="FilesAPIStatus.icon"
       style="position: absolute; top: 25px; right: 25px;"
     >
-      {{ apiRequest.text }}
+      {{ FilesAPIStatus.text }}
     </v-alert>
 </template>
 
@@ -16,8 +16,8 @@
     export default {
         name: 'Alert',
         computed: {
-          apiRequest(){
-            return this.$store.state.apiRequest;
+          FilesAPIStatus(){
+            return this.$store.state.FilesAPIStatus;
           }
         }
     }

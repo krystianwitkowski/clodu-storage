@@ -1,6 +1,6 @@
 <template>
 <transition name="fetch-form">
-  <v-form v-if="form" class="form-register d-flex align-center" v-model="valid" style="height: 100%; width: 100%;">
+  <v-form v-if="form" class="form-register d-flex align-center" style="height: 100%; width: 100%;">
     <v-container class="form-register-shadow pl-12 pr-12 pt-12 pb-12" style="box-shadow: 0 0 21px 0 rgb(0 0 0 / 3%); background: #ffffff; border-radius: 8px; max-width: 360px;">
       <v-row class="mt-0 pl-2 pr-2">
         <v-col style="padding: 0px; position: relative;">
@@ -10,7 +10,7 @@
             outlined
             dense
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[0] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[0] }}</p>
         </v-col>
       </v-row>
       <v-divider></v-divider>
@@ -23,7 +23,7 @@
             outlined
             dense
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 14px; color: #ff0038">{{ this.validate[1] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[1] }}</p>
         </v-col>
           <v-btn
             icon
@@ -90,11 +90,10 @@ export default {
 
             else {
               this.validate = body.validate
-              this.$store.commit('toggleApiRequest', { text: 'Something went wrong', value: false, icon: 'mdi-information-outline' })
             }
 
         } catch {
-          this.$store.commit('toggleApiRequest', { text: 'Something went wrong', value: true, icon: 'mdi-information-outline' })
+              this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
         }
       }
     },
