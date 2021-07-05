@@ -20,10 +20,13 @@ const authentication = require('./routes/authentication.js');
 
 /* Middlewares */
 const rateLimiter = require('./middlewares/rateLimiter.js');
+const verifyToken = require('./middlewares/verifyToken.js');
 
-app.use('/api/files', files);
 app.use('/api/users', users);
 app.use('/api/authentication', rateLimiter, authentication);
+
+app.use(verifyToken);
+app.use('/api/files', files);
 
 app.listen(process.env.PORT);
 

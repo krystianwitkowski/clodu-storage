@@ -16,7 +16,7 @@ Router.route("/")
 
         const users = await db.collection('users');
 
-        const user = await users.findOne({ id: 0 })
+        const user = await users.findOne({ id: req.decoded.id })
         
         const file = {
             id: user.files.length > 0 ? user.files.length : 0,
@@ -27,7 +27,7 @@ Router.route("/")
             starred: false 
         }
 
-        const updated = await users.updateOne({ id: 0 }, {
+        const updated = await users.updateOne({ id: req.decoded.id }, {
             $set: {
                 files: [...user.files, file]
             }
@@ -51,7 +51,7 @@ Router.route("/")
 
         const users = await db.collection('users');
 
-        const user = await users.findOne({ id: 0 })
+        const user = await users.findOne({ id: req.decoded.id })
 
         if(req.query.id === 'last'){
             res.status(200).json(user.files.filter((file, i, arr) => i === arr.length - 1))
@@ -78,13 +78,13 @@ Router.route("/")
 
         const users = await db.collection('users');
         
-        const user = await users.findOne({ id: 0 })
+        const user = await users.findOne({ id: req.decoded.id })
 
         if(req.query.trash){
 
             const setAction = user.files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, trash: JSON.parse(req.query.trash) } : { ...file })
 
-            const updated = await users.findOneAndUpdate({ id: 0 }, {
+            const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
                 $set: {
                     files: setAction
                 }
@@ -99,7 +99,7 @@ Router.route("/")
         if(req.query.starred){
             const setAction = user.files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, starred: JSON.parse(req.query.starred) } : { ...file })
             
-            const updated = await users.findOneAndUpdate({ id: 0 }, {
+            const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
                 $set: {
                     files: setAction
                 }

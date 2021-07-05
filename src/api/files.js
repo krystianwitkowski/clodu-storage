@@ -1,3 +1,5 @@
+import getTokens from '../utilities/getTokens.js';
+
 const post = async (file) => {
     const url = 'http://localhost:5001/api/files';
 
@@ -6,6 +8,9 @@ const post = async (file) => {
     formData.append('file', file)
 
     return fetch(url, {
+        headers: {
+            'X-Access-Token':  getTokens().accessToken
+        },
         method: 'POST',
         body: formData
     });
@@ -24,6 +29,7 @@ const get = async (query) => {
 
     return fetch(url, {
         headers: {
+            'X-Access-Token':  getTokens().accessToken,
             'Content-Type': 'application/json'
         }
     });
@@ -42,6 +48,7 @@ const put = async (query) => {
 
     return fetch(url, {
         headers: {
+            'X-Access-Token':  getTokens().accessToken,
             'Content-Type': 'application/json'
         },
         method: 'PUT'
