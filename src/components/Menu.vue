@@ -4,7 +4,7 @@
       width="100%"
       height="100vh"
       tile
-      style="position: relative;"
+      style="position: relative; box-shadow: 0px 0px 8px rgba(0,0,0,0.05);"
     >
     <v-btn
       @click="handleClick"
@@ -53,6 +53,11 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
+      <v-list-item class="mt-10 d-flex justify-center">
+        <v-btn @click="handleClickButton" depressed style="border: 1px solid #1976D2; background: #ffffff; color: #1976D2">
+          log out
+        </v-btn>
+      </v-list-item>
     </v-card>
 </template>
 
@@ -87,6 +92,10 @@ export default {
     handleClick(){
       this.$store.state.isDropdownFiles = !this.$store.state.isDropdownFiles
     },
+    handleClickButton(){
+      localStorage.clear();
+      this.$router.push({ path: '/signin' })
+    }
   }
 };
 </script>
@@ -102,6 +111,10 @@ export default {
 }
 
 .btn-files {
-  box-shadow: 0px 0px 7px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.08);
+}
+
+.v-item--active .v-list-item__content a {
+  color: #1976D2 !important;
 }
 </style>
