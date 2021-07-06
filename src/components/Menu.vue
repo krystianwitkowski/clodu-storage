@@ -2,7 +2,7 @@
   <v-card
       class="mx-auto pr-4"
       width="100%"
-      height="100%"
+      height="100vh"
       tile
       style="position: relative;"
     >
@@ -47,8 +47,8 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title style="color: #585858">Data storage</v-list-item-title>
-              <v-list-item-title class="mt-2"><v-progress-linear value="15"></v-progress-linear></v-list-item-title>
-              <v-list-item-title style="color: #585858" class="mt-1">used 1MB of 2GB</v-list-item-title>
+              <v-list-item-title class="mt-2"><v-progress-linear style="border-radius: 25px;" value="0"></v-progress-linear></v-list-item-title>
+              <v-list-item-title style="color: #585858" class="mt-1">{{ convertBytes }} of 512MB used</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import convertBytes from '../utilities/convertBytes.js';
 import DropdownFiles from './DropdownFiles.vue';
 
 export default {
@@ -77,12 +78,15 @@ export default {
   computed: {
     isDropdownFiles(){
       return this.$store.state.isDropdownFiles
+    },
+    convertBytes(){
+      return convertBytes(this.$store.getters.bytes)
     }
   },
   methods: {
     handleClick(){
       this.$store.state.isDropdownFiles = !this.$store.state.isDropdownFiles
-    }
+    },
   }
 };
 </script>

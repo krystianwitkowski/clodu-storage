@@ -1,19 +1,11 @@
 <template>
-    <div class="search d-flex align-center">
-    <v-btn
-        icon
-        color="#FF616D"
-        style="position: relative; top: -10px; left: -3px"
-        
-    >
-        <v-icon>mdi-cloud-search-outline</v-icon>
-    </v-btn>
+    <div class="mt-10 search d-flex align-center">
         <v-text-field
         class="input-search"
         label="Search"
         solo
         flat
-        height="60px"
+        height="45px"
         v-model="search"
         ></v-text-field>
     </div>
@@ -34,3 +26,18 @@ export default {
     }
 }
 </script>
+
+<style>
+
+.input-search .v-input__control .v-input__slot {
+    background: #F8F8F8 !important;
+    border-radius: 50px;
+    padding: 0 25px !important;
+}
+
+.input-search .v-input__control .v-input__slot .v-text-field__slot .v-label {
+    color: #BEBEBE;
+}
+
+
+</style>

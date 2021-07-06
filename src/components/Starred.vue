@@ -1,12 +1,11 @@
 <template>
   <v-container class="pa-8 pt-0 pb-0">
-      <v-row class="ma-0" style="z-index: 999; height: 60px;">
+      <v-row class="ma-0">
         <v-col class="pa-0">
           <Search />
-          <v-divider style="position: relative; top: -22px;"></v-divider>
         </v-col>
       </v-row>
-      <v-row class="mt-8" style="max-width: 852px;">
+      <v-row class="mt-0" style="max-width: 852px;">
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: false, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
       </v-row>
   </v-container>

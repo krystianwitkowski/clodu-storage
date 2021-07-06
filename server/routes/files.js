@@ -24,7 +24,7 @@ Router.route("/")
             base64: Buffer.from(req.files.file.data).toString('base64'),
             icons: mimeTypes.find(type => type.mimetype === req.files.file.mimetype),
             trash: false,
-            starred: false 
+            starred: false
         }
 
         const updated = await users.updateOne({ id: req.decoded.id }, {

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main class="d-flex flex-row" style="position: relative;">
-        <v-row>
+        <v-row class="mb-0">
           <v-col cols="3" class="pb-0">
             <Menu />
           </v-col>

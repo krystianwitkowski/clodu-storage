@@ -1,10 +1,10 @@
 <template>
-<v-col style="margin: 12px; padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
+<v-col style="margin: 12px; margin-top: 0; padding: 8px; width: 260px; height: 180px;flex-basis: initial; flex-grow: initial; max-width: initial;">
     <div class="item-icons d-flex justify-end mb-1">
     <v-list-item-icon v-for="action in actions" :key="action.id" class="ma-0" @click="() => handleClick(action.arg)">
     <v-btn
         icon
-        color="#FF616D"
+        color="#DCDCDC"
         width="30"
         height="30"
     >
