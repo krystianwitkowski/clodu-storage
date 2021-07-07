@@ -17,6 +17,7 @@ app.use(fileUpload());
 const files = require('./routes/files.js');
 const users = require('./routes/users.js');
 const authentication = require('./routes/authentication.js');
+const tokens = require('./routes/tokens.js');
 
 /* Middlewares */
 const rateLimiter = require('./middlewares/rateLimiter.js');
@@ -24,6 +25,7 @@ const verifyToken = require('./middlewares/verifyToken.js');
 
 app.use('/api/users', users);
 app.use('/api/authentication', rateLimiter, authentication);
+app.use('/api/tokens', tokens);
 
 app.use(verifyToken);
 app.use('/api/files', files);

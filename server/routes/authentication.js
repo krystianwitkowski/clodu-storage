@@ -63,9 +63,10 @@ Router.route('/')
           const match = await bcrypt.compare(password, isUser.password)
   
           if(match){
-            const accessToken = jwt.sign({ id: isUser.id }, process.env.ACCESS_TOKEN_SECRET)
-  
-            res.status(200).json({ accessToken })
+            const accessToken = jwt.sign({ id: isUser.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' })
+            const refreshToken = jwt.sign({ id: isUser.id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '10m' })
+
+            res.status(200).json({ accessToken, refreshToken })
           }
   
           else {

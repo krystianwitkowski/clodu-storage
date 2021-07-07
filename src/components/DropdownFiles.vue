@@ -34,6 +34,8 @@
 <script>
 /* API */
 import FilesAPI from '../api/files.js';
+/* Utilities */
+import createTokens from '../utilities/createTokens.js';
 
 export default {
     name: 'DropdownFiles',
@@ -41,7 +43,7 @@ export default {
         return {
           selectedItem: 1,
           items: [
-              { text: 'Send file', file: null, icon: 'mdi-file' }
+            { text: 'Send file', file: null, icon: 'mdi-file' }
           ],
         }
     },
@@ -52,19 +54,60 @@ export default {
           this.$store.commit('updateDropdownMenu')
           this.$store.commit('updateFilesAPIStatus', { text: 'Transmission in progress', loading: true, icon: 'mdi-cloud-sync-outline' })
 
-          await FilesAPI.post(this.items[0].file);
-
-          const FilesGET = await FilesAPI.get({ id: 'last' });
+          const FilesPOST = await FilesAPI.post(this.items[0].file);
           
-          this.$store.commit('addFile', await FilesGET.json())
+          if(FilesPOST.status === 401){
+            try {
+              const TokensAPI = await createTokens();
 
-          this.$store.commit('updateFilesAPIStatus', { text: 'Transmission in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
+              if(TokensAPI.status === 401){
+                this.$router.push({ path: '/signin'})
+              }
+
+              else {
+                const FilesPOST = await FilesAPI.post(this.items[0].file);
+                this.createFile(FilesPOST);
+              }
+            } catch {
+              this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+            }
+          }
+
+          else if (FilesPOST.status === 201){
+            this.createFile(FilesPOST);
+          }
+
+          else {
+            this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+          }
+
         } catch {
           this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
           this.$store.commit('updateDropdownMenu')
         }
       }
     },
+    methods: {
+      async createFile(res){
+        try {
+          if(res.status === 201){
+            const res = await FilesAPI.get({ id: 'last' });
+
+            if(res.status === 200){
+              this.$store.commit('addFile', await res.json())
+              this.$store.commit('updateFilesAPIStatus', { text: 'Transmission in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
+            }
+
+            else {
+              this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+            }
+
+          }
+        } catch {
+          this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+        }
+      }
+    }
 
 }
 </script>

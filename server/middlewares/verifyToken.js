@@ -4,12 +4,12 @@ module.exports = (req, res, next) => {
   const token = req.get('X-Access-Token') || req.query.accessToken;
 
   if(!token){
-    res.status(401).json({
+    res.status(400).json({
         error: {
-            type: '/errors/token/no-token',
-            title: 'No token',
+            type: '/errors/tokens/no-access-token',
+            title: 'Access token has not been sent',
             status: 400,
-            detail: 'No token. You have to send a token in header or query string'
+            detail: 'Send access token in header or query string'
         }
      })
   }
@@ -21,13 +21,13 @@ module.exports = (req, res, next) => {
     next()
 
   } catch {
-        return res.status(401).json({
-            error: {
-                type: '/errors/token/expired',
-                title: 'Token expired',
-                status: 401,
-                detail: 'Token expired. You need to refresh the token'
-            }
-        })
+      res.status(401).json({
+          error: {
+              type: '/errors/tokens/access-token-expired',
+              title: 'Access token has expired',
+              status: 401,
+              detail: 'You need to refresh the token'
+          }
+      })
   }
 }

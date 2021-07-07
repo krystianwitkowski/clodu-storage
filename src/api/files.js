@@ -1,3 +1,4 @@
+/* Utilities */
 import getTokens from '../utilities/getTokens.js';
 
 const post = async (file) => {
@@ -14,6 +15,7 @@ const post = async (file) => {
         method: 'POST',
         body: formData
     });
+    
 }
 
 const get = async (query) => {
@@ -33,6 +35,7 @@ const get = async (query) => {
             'Content-Type': 'application/json'
         }
     });
+
 }
 
 const put = async (query) => {
