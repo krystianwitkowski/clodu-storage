@@ -55,8 +55,23 @@ const put = async (query) => {
     });
 }
 
+const del = async (query) => {
+    if(query){
+        const url = `http://localhost:5001/api/files?id=${query}`;
+
+        return fetch(url, {
+            headers: {
+                'X-Access-Token':  getTokens().accessToken,
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'
+        })
+    }
+}
+
 export default {
     post,
     get,
-    put
+    put,
+    delete: del
 }

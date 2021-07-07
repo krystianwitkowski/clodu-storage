@@ -10,7 +10,8 @@ export default new Vuex.Store({
     FilesAPIStatus: { text: '', loading: false, icon: '' },
     FormAPIStatus: { text: '', loading: false, icon: '' },
     search: '',
-    synchronize: true
+    synchronize: true,
+    overlay: false
   },
   mutations: {
     toggleDropdownFiles(state, payload){
@@ -31,6 +32,10 @@ export default new Vuex.Store({
     updateFile(state, payload){
       return state.files = state.files.map(file => file.id === payload.id ? { ...payload } : { ...file })
     },
+    deleteFiles(state, payload){
+      const ids = payload.map(file => file.id);
+      return state.files = state.files.filter(file => ids.every(id => id !== file.id))
+    },
     updateFilesAPIStatus(state, payload){
       return state.FilesAPIStatus = payload
     },
@@ -42,6 +47,9 @@ export default new Vuex.Store({
     },
     isSynchronize(state, payload){
       return state.synchronize = payload
+    },
+    toggleOverlay(state, payload){
+      return state.overlay = payload
     }
   },
   getters: {
@@ -54,7 +62,8 @@ export default new Vuex.Store({
     bytes: (state) => {
       const sizesFile = state.files.map(file => JSON.parse(file.file)).map(file => file.size);
       return sizesFile.reduce((accumulator, currentSize) => accumulator + currentSize, 0)
-    }
+    },
+    
   },
   actions: {},
   modules: {}

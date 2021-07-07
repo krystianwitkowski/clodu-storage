@@ -23,7 +23,7 @@
         "
         >
         <v-list-item-icon class="ma-0" style="align-self: center;">
-            <v-icon :color="file.icons.color" style="font-size: 28px"
+            <v-icon color="#fd5e53" style="font-size: 28px"
             >{{ file.icons.icon }}</v-icon
             >
         </v-list-item-icon>

@@ -5,6 +5,23 @@
           <Search />
         </v-col>
       </v-row>
+      <v-row class="ma-0">
+        <v-col class="pa-0">
+          <v-btn
+            @click="handleClick"
+            rounded
+            width="100"
+            height="45"
+            class="mt-4 mb-8 ml-7"
+            color="#ffffff"
+            style="color: #BEBEBE; box-shadow: 0px 0px 8px rgba(0,0,0,0.08)"
+          >
+            <v-icon>
+              mdi-close-circle-multiple-outline
+            </v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-row class="mt-0" style="max-width: 852px;">
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-restore', arg: { name: 'trash', trash: false, id: file.id } }]" />
       </v-row>
@@ -21,6 +38,11 @@ export default {
       Search,
       File
     },
+    data(){
+      return {
+        overlay: false
+      }
+    },
     computed: {
       files(){
         if(this.$store.state.search.length > 0){
@@ -30,6 +52,11 @@ export default {
         else {
           return this.$store.getters.files(obj => obj.trash)
         }
+      }
+    },
+    methods: {
+      handleClick(){
+        this.$store.commit('toggleOverlay', true)
       }
     },
     mounted(){
