@@ -7,7 +7,7 @@
       style="position: relative; box-shadow: 0px 0px 8px rgba(0,0,0,0.05);"
     >
     <v-btn
-      @click="handleClick"
+      @click="handleClickDropdown"
       rounded
       width="120"
       height="45"
@@ -19,7 +19,7 @@
         mdi-plus
       </v-icon>
     </v-btn>
-      <DropdownFiles v-show="isDropdownFiles" />
+      <DropdownFiles v-if="isDropdownMenu" />
       <v-list dense shaped class="pa-0">
         <v-list-item-group
           v-model="selectedItem"
@@ -54,7 +54,7 @@
         </v-list-item-group>
       </v-list>
       <v-list-item class="mt-10 d-flex justify-center">
-        <v-btn @click="handleClickButton" depressed style="border: 1px solid #1976D2; background: #ffffff; color: #1976D2">
+        <v-btn @click="handleClickLogout" depressed style="border: 1px solid #1976D2; background: #ffffff; color: #1976D2">
           log out
         </v-btn>
       </v-list-item>
@@ -81,18 +81,18 @@ export default {
     }
   },
   computed: {
-    isDropdownFiles(){
-      return this.$store.state.isDropdownFiles
+    isDropdownMenu(){
+      return this.$store.state.dropdownMenu
     },
     convertBytes(){
       return convertBytes(this.$store.getters.bytes)
     }
   },
   methods: {
-    handleClick(){
-      this.$store.state.isDropdownFiles = !this.$store.state.isDropdownFiles
+    handleClickDropdown(){
+      this.$store.commit('updateDropdownMenu')
     },
-    handleClickButton(){
+    handleClickLogout(){
       localStorage.clear();
       this.$router.push({ path: '/signin' })
     }

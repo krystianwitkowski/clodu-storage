@@ -59,7 +59,7 @@ export default {
     if(this.$store.state.synchronize){
       this.getSynchronize();
 
-      this.$store.commit('isSynchronize', false)
+      this.$store.commit('updateSynchronize', false)
     }
     this.$store.commit('updateSearch', '')
   }

@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isDropdownFiles: false,
+    dropdownMenu: false,
     files: [],
     FilesAPIStatus: { text: '', loading: false, icon: '' },
     FormAPIStatus: { text: '', loading: false, icon: '' },
@@ -14,6 +14,9 @@ export default new Vuex.Store({
     overlay: false
   },
   mutations: {
+    updateDropdownMenu(state){
+      return state.dropdownMenu = !state.dropdownMenu;
+    },
     toggleDropdownFiles(state, payload){
       if(typeof payload === "boolean"){
         return state.isDropdownFiles = false
@@ -45,10 +48,10 @@ export default new Vuex.Store({
     updateSearch(state, payload){
       return state.search = payload
     },
-    isSynchronize(state, payload){
+    updateSynchronize(state, payload){
       return state.synchronize = payload
     },
-    toggleOverlay(state, payload){
+    updateOverlay(state, payload){
       return state.overlay = payload
     }
   },

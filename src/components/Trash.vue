@@ -56,7 +56,7 @@ export default {
     },
     methods: {
       handleClick(){
-        this.$store.commit('toggleOverlay', true)
+        this.$store.commit('updateOverlay', true)
       }
     },
     mounted(){

@@ -45,20 +45,24 @@ export default {
           ],
         }
     },
-
     async updated(){
       if(this.items[0].file){
 
-        this.$store.commit('toggleDropdownFiles')
-        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: true, icon: 'mdi-cloud-sync-outline' })
+        try {
+          this.$store.commit('updateDropdownMenu')
+          this.$store.commit('updateFilesAPIStatus', { text: 'Transmission in progress', loading: true, icon: 'mdi-cloud-sync-outline' })
 
-        await FilesAPI.post(this.items[0].file);
+          await FilesAPI.post(this.items[0].file);
 
-        const FilesGET = await FilesAPI.get({ id: 'last' });
-        
-        this.$store.commit('addFile', await FilesGET.json())
+          const FilesGET = await FilesAPI.get({ id: 'last' });
+          
+          this.$store.commit('addFile', await FilesGET.json())
 
-        this.$store.commit('toggleApiRequest', { text: 'Transmission in progress', value: false, icon: 'mdi-cloud-sync-outline' })
+          this.$store.commit('updateFilesAPIStatus', { text: 'Transmission in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
+        } catch {
+          this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+          this.$store.commit('updateDropdownMenu')
+        }
       }
     },
 

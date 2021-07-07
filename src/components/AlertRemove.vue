@@ -46,14 +46,14 @@ import FilesAPI from '../api/files.js';
 
                     this.$store.commit('deleteFiles', await deleted.json())
                     
-                    this.$store.commit('toggleOverlay', false)
+                    this.$store.commit('updateOverlay', false)
 
                 } catch {
                     this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline'})
                 }
             },
             handleClickNo(){
-                this.$store.commit('toggleOverlay', false)
+                this.$store.commit('updateOverlay', false)
             }
         }
     }

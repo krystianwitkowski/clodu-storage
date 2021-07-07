@@ -29,9 +29,6 @@ export default {
     AlertRemove
   },
   computed: {
-    isOverlayFolder(){
-      return this.$store.state.isOverlayFolder;
-    },
     FilesAPIStatus(){
       return this.$store.state.FilesAPIStatus.loading;
     }
