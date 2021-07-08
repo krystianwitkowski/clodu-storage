@@ -11,21 +11,23 @@
         </v-row>
     </v-main>
     <transition name="fade">
-      <Alert v-if="FilesAPIStatus" />
+      <AlertFiles v-if="FilesAPIStatus" />
     </transition>
     <AlertRemove />
   </v-app>
 </template>
 
 <script>
+/* Components */
 import Menu from '../components/Menu.vue';
-import Alert from '../components/Alert.vue';
-import  AlertRemove from '../components/AlertRemove.vue';
+import AlertFiles from '../components/AlertFiles.vue';
+import AlertRemove from '../components/AlertRemove.vue';
+
 export default {
   name: 'Dashboard',
   components: {
     Menu,
-    Alert,
+    AlertFiles,
     AlertRemove
   },
   computed: {

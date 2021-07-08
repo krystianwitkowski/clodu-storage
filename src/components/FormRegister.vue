@@ -103,6 +103,8 @@ export default {
     methods:{
       async handleClickButton(){
         try {
+          this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' })
+
           const res = await UsersAPI.post(JSON.stringify(this.user))
 
           if(res.status === 201){

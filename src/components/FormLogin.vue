@@ -78,6 +78,8 @@ export default {
       },
       async handleClickSubmit(){
         try {
+          this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' })
+
           const res = await authentication(JSON.parse(JSON.stringify(this.user)))
           const body = await res.json();
 
@@ -93,7 +95,7 @@ export default {
             }
 
         } catch {
-              this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+            this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
         }
       }
     },

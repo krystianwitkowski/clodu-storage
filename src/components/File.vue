@@ -12,7 +12,7 @@
     </v-btn>
     </v-list-item-icon>
     </div>
-    <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 8px;">
+    <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 8px;">
     <v-list-item-group style="height: 100%;">
         <v-list-item 
         style="
@@ -85,6 +85,7 @@ export default {
 
                 else if (FilesPUT.status === 200){
                     this.$store.commit('updateFile', await FilesPUT.json()) 
+                    this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
                 }
 
                 else {

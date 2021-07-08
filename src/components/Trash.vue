@@ -14,7 +14,7 @@
             height="45"
             class="mt-4 mb-8 ml-7"
             color="#ffffff"
-            style="color: #BEBEBE; box-shadow: 0px 0px 8px rgba(0,0,0,0.08)"
+            style="color: #BEBEBE; box-shadow: 0px 0px 6px rgba(0,0,0,0.08)"
           >
             <v-icon>
               mdi-close-circle-multiple-outline

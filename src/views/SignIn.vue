@@ -3,21 +3,21 @@
     <v-main>
       <FormLogin />
     <transition name="fetch-form">
-      <Alert v-if="FormAPIStatus" />
+      <AlertForm v-if="FormAPIStatus" />
     </transition>
     </v-main>
 </v-app>
 </template>
 
 <script>
-import Alert from '../components/Alert.vue';
+import AlertForm from '../components/AlertForm.vue';
 import FormLogin from '../components/FormLogin.vue';
 
 export default {
     name: 'SignIn',
     components: {
       FormLogin,
-      Alert
+      AlertForm
     },
     computed: {
       FormAPIStatus(){
@@ -26,6 +26,9 @@ export default {
     },
     destroyed(){
       this.$store.commit('updateFormAPIStatus', { text: '', loading: false, icon: ''})
+    },
+    mounted(){
+      this.$store.commit('updateSynchronize', true)
     }
 }
 </script>

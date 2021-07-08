@@ -6,6 +6,7 @@
         </v-col>
       </v-row>
       <v-row class="mt-0" style="max-width: 852px;">
+        <v-icon v-if="isFiles" style="position: absolute; left: 50%; transform: translateX(-50%); top: 120px; font-size: 400px; color: #F5F5F5">mdi-cloud-upload-outline</v-icon>
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
       </v-row>
   </v-container>
@@ -32,6 +33,15 @@ export default {
 
       else {
         return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
+      }
+    },
+    isFiles(){
+      if(this.$store.state.files.length > 0){
+        return false
+      }
+
+      else {
+        return true
       }
     }
   },

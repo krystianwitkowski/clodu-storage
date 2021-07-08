@@ -33,7 +33,7 @@
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <router-link class="nav-item" v-text="item.text" :to="item.path">Go</router-link>
+              <router-link style="position: absolute; left:0; height:40px; width: 100%; display: flex; flex-direction: row; align-items: center; padding-left: 71px;" class="nav-item" v-text="item.text" :to="item.path">Go</router-link>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -46,15 +46,15 @@
               <v-icon>mdi-cloud-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title style="color: #585858">Data storage</v-list-item-title>
+              <v-list-item-title style="color: #585858">Storage</v-list-item-title>
               <v-list-item-title class="mt-2"><v-progress-linear style="border-radius: 25px;" value="0"></v-progress-linear></v-list-item-title>
               <v-list-item-title style="color: #585858" class="mt-1">{{ convertBytes }} of 512MB used</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-list-item class="mt-10 d-flex justify-center">
-        <v-btn @click="handleClickLogout" depressed style="border: 1px solid #1976D2; background: #ffffff; color: #1976D2">
+      <v-list-item class="mt-10 ml-10 d-flex justify-start">
+        <v-btn class="pa-5" @click="handleClickLogout" depressed style="border: 1px solid rgba(0,0,0,0.1); background: #ffffff; color: #1976D2">
           log out
         </v-btn>
       </v-list-item>
