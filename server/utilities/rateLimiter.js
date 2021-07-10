@@ -3,14 +3,14 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 const opts = {
     points: 5, // 5 points
     duration: 60 * 15 // Per second // Set 15 minutes
-  };
-  
+};
 const rateLimiter = new RateLimiterMemory(opts);
 
-module.exports = async (req, res, next) => {
+const getRateLimiter = async (req, res, json) => {
     try {
-        await rateLimiter.consume(req.connection.remoteAddress)
-        next()
+        await rateLimiter.consume(req.socket.remoteAddress);
+
+        return res.status(401).json(json);
     } catch {
         res.status(429).json({
             error: {
@@ -22,4 +22,9 @@ module.exports = async (req, res, next) => {
             validate: ['', 'Try again in 15 minutes']
         })
     }
+}
+
+module.exports = {
+    rateLimiter,
+    getRateLimiter
 }

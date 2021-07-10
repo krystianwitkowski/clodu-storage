@@ -20,11 +20,11 @@ const authentication = require('./routes/authentication.js');
 const tokens = require('./routes/tokens.js');
 
 /* Middlewares */
-const rateLimiter = require('./middlewares/rateLimiter.js');
+const requestLimit = require('./middlewares/requestLimit.js');
 const verifyToken = require('./middlewares/verifyToken.js');
 
 app.use('/api/users', users);
-app.use('/api/authentication', rateLimiter, authentication);
+app.use('/api/authentication', requestLimit, authentication);
 app.use('/api/tokens', tokens);
 
 app.use(verifyToken);
