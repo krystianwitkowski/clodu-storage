@@ -4,7 +4,7 @@
       width="100%"
       height="100vh"
       tile
-      style="position: relative; box-shadow: 0px 0px 8px rgba(0,0,0,0.05);"
+      style="position: relative; box-shadow: none;"
     >
     <v-btn
       @click="handleClickDropdown"
@@ -111,7 +111,7 @@ export default {
 }
 
 .btn-files {
-  box-shadow: 0px 0px 8px rgba(0,0,0,0.08);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.12);
 }
 
 .v-item--active .v-list-item__content a {

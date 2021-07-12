@@ -11,7 +11,8 @@ export default new Vuex.Store({
     FormAPIStatus: { text: '', loading: false, icon: '' },
     search: '',
     synchronize: true,
-    overlay: false
+    overlay: false,
+    currentFilter: ''
   },
   mutations: {
     updateDropdownMenu(state){
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     },
     updateOverlay(state, payload){
       return state.overlay = payload
+    },
+    filterFiles(state, payload){
+      return state.currentFilter = payload
     }
   },
   getters: {
@@ -65,8 +69,7 @@ export default new Vuex.Store({
     bytes: (state) => {
       const sizesFile = state.files.map(file => JSON.parse(file.file)).map(file => file.size);
       return sizesFile.reduce((accumulator, currentSize) => accumulator + currentSize, 0)
-    },
-    
+    }
   },
   actions: {},
   modules: {}

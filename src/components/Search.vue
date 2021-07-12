@@ -1,11 +1,10 @@
 <template>
-    <div class="mt-10 search d-flex align-center">
+    <div class="mt-8 search d-flex align-center">
         <v-text-field
         class="input-search"
         label="Search"
         solo
         flat
-        height="45px"
         v-model="search"
         ></v-text-field>
     </div>
@@ -30,14 +29,24 @@ export default {
 <style>
 
 .input-search .v-input__control .v-input__slot {
-    background: #F8F8F8 !important;
+    border: 1px solid rgba(0,0,0,0.1);
     border-radius: 50px;
-    padding: 0 25px !important;
+    padding: 0 23px !important;
+    max-width: 550px;
+}
+
+.input-search .v-input__control {
+    min-height: 45px !important;
 }
 
 .input-search .v-input__control .v-input__slot .v-text-field__slot .v-label {
     color: #BEBEBE;
 }
+
+.input-search .v-input__control .v-input__slot .v-text-field__slot input {
+    color: #BEBEBE;
+}
+
 
 
 </style>

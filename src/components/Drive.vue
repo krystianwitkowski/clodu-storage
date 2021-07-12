@@ -5,6 +5,11 @@
           <Search />
         </v-col>
       </v-row>
+      <v-row class="ma-0 pl-2">
+        <v-col class="pa-0">
+          <FiltersDropdown />
+        </v-col>
+      </v-row>
       <v-row class="mt-0" style="max-width: 852px;">
         <v-icon v-if="isFiles" style="position: absolute; left: 50%; transform: translateX(-50%); top: 120px; font-size: 400px; color: #F5F5F5">mdi-cloud-upload-outline</v-icon>
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
@@ -18,21 +23,32 @@ import FilesAPI from '../api/files.js';
 /* Components */
 import Search from '../components/Search.vue';
 import File from '../components/File.vue';
+import FiltersDropdown from '../components/FiltersDropdown.vue';
 
 export default {
   name: "Drive",
   components: {
     Search,
-    File
+    File,
+    FiltersDropdown
   },
   computed: {
     files(){
-      if(this.$store.state.search.length > 0){
-        return this.$store.getters.searchFiles(obj => obj.trash === false && obj.starred === false)
+      if(this.$store.state.currentFilter === 'newset'){
+        return this.$store.getters.searchFiles(obj => obj.trash === false && obj.starred === false).sort((a, b) => b.timestamp - a.timestamp)
+      }
+      else if(this.$store.state.currentFilter === 'oldest'){
+        return this.$store.getters.searchFiles(obj => obj.trash === false && obj.starred === false).sort((a, b) => a.timestamp - b.timestamp)
       }
 
       else {
-        return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
+        if(this.$store.state.search.length > 0){
+          return this.$store.getters.searchFiles(obj => obj.trash === false && obj.starred === false)
+        }
+
+        else {
+          return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
+        }
       }
     },
     isFiles(){
