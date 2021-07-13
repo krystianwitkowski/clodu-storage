@@ -6,8 +6,16 @@
         </v-col>
       </v-row>
       <v-row class="ma-0 pl-2">
-        <v-col class="pa-0">
+        <v-col class="pa-0 d-flex">
           <FiltersDropdown />
+            <v-btn
+              icon
+              color="#DCDCDC"
+              class="ml-3"
+              @click="handleClickIcon"
+            >
+              <v-icon style="font-size: 25px;">mdi-view-module-outline</v-icon>
+            </v-btn>
         </v-col>
       </v-row>
       <v-row class="ma-0">
@@ -29,6 +37,7 @@
       </v-row>
       <v-row class="mt-0" style="max-width: 852px;">
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-restore', arg: { name: 'trash', trash: false, id: file.id } }]" />
+        <GridFiles v-if="isGrid" :files="trashFiles"/>
       </v-row>
   </v-container>
 </template>
@@ -37,17 +46,20 @@
 import Search from '../components/Search.vue';
 import File from '../components/File.vue';
 import FiltersDropdown from '../components/FiltersDropdown.vue';
+import GridFiles from '../components/GridFiles.vue';
 
 export default {
     name: 'Trash',
     components: {
       Search,
       File,
-      FiltersDropdown
+      FiltersDropdown,
+      GridFiles
     },
     data(){
       return {
-        overlay: false
+        overlay: false,
+        grid: false
       }
     },
     computed: {
@@ -69,11 +81,20 @@ export default {
           }
         }
 
+      },
+      trashFiles(){
+        return this.$store.getters.files(obj => obj.trash)
+      },
+      isGrid(){
+        return this.grid;
       }
     },
     methods: {
       handleClick(){
         this.$store.commit('updateOverlay', true)
+      },
+      handleClickIcon(){
+        this.grid = !this.grid;
       }
     },
     mounted(){

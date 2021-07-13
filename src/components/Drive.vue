@@ -6,13 +6,22 @@
         </v-col>
       </v-row>
       <v-row class="ma-0 pl-2">
-        <v-col class="pa-0">
+        <v-col class="pa-0 d-flex">
           <FiltersDropdown />
+            <v-btn
+              icon
+              color="#DCDCDC"
+              class="ml-3"
+              @click="handleClick"
+            >
+              <v-icon style="font-size: 25px;">mdi-view-module-outline</v-icon>
+            </v-btn>
         </v-col>
       </v-row>
       <v-row class="mt-0" style="max-width: 852px;">
         <v-icon v-if="isFiles" style="position: absolute; left: 50%; transform: translateX(-50%); top: 120px; font-size: 400px; color: #F5F5F5">mdi-cloud-upload-outline</v-icon>
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
+        <GridFiles v-if="isGrid" :files="allFiles"/>
       </v-row>
   </v-container>
 </template>
@@ -24,13 +33,20 @@ import FilesAPI from '../api/files.js';
 import Search from '../components/Search.vue';
 import File from '../components/File.vue';
 import FiltersDropdown from '../components/FiltersDropdown.vue';
+import GridFiles from '../components/GridFiles.vue';
 
 export default {
   name: "Drive",
   components: {
     Search,
     File,
-    FiltersDropdown
+    FiltersDropdown,
+    GridFiles
+  },
+  data(){
+    return {
+      grid: false
+    }
   },
   computed: {
     files(){
@@ -59,6 +75,12 @@ export default {
       else {
         return true
       }
+    },
+    allFiles(){
+      return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
+    },
+    isGrid(){
+      return this.grid;
     }
   },
   methods:{
@@ -79,6 +101,9 @@ export default {
       } catch {
           this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-cloud-sync-outline' })
       }
+    },
+    handleClick(){
+      this.grid = !this.grid;
     }
   },
   mounted(){
