@@ -18,23 +18,39 @@ Router.route("/")
 
         const user = await users.findOne({ id: req.decoded.id })
         
-        const file = {
-            id: user.files.length > 0 ? user.files.length : 0,
-            file: JSON.stringify(req.files.file),
-            base64: Buffer.from(req.files.file.data).toString('base64'),
-            icons: mimeTypes.find(type => type.mimetype === req.files.file.mimetype),
-            trash: false,
-            starred: false,
-            timestamp: Date.now()
+        const isExtensionExist = mimeTypes.find(type => type.mimetype === req.files.file.mimetype)
+
+        if(isExtensionExist) {
+            const file = {
+                id: user.files.length > 0 ? user.files.length : 0,
+                file: JSON.stringify(req.files.file),
+                base64: Buffer.from(req.files.file.data).toString('base64'),
+                icons: isExtensionExist,
+                trash: false,
+                starred: false,
+                timestamp: Date.now()
+            }
+
+            const updated = await users.updateOne({ id: req.decoded.id }, {
+                $set: {
+                    files: [...user.files, file]
+                }
+            })
+            
+            res.status(201).json(file);
         }
 
-        const updated = await users.updateOne({ id: req.decoded.id }, {
-            $set: {
-                files: [...user.files, file]
-            }
-        })
-        
-        res.status(201).json(file);
+        else {
+            res.status(400).json({
+                error: {
+                    type: '/errors/invalid-extension',
+                    title: 'Invalid extension',
+                    status: 400,
+                    detail: 'File with this extension is not supported'
+                }
+            })
+        }
+
     } catch {
         res.status(500).json({
             error: {

@@ -73,6 +73,10 @@ export default {
             }
           }
 
+          else if (FilesPOST.status === 400){
+            this.$store.commit('updateFilesAPIStatus', { text: 'This extension is not supported', loading: true, icon: 'mdi-information-outline' })
+          }
+
           else if (FilesPOST.status === 201){
             this.createFile(FilesPOST);
           }
