@@ -13,7 +13,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/s',
+    path: '/',
     component: SignUp
   },
   {
@@ -35,7 +35,7 @@ const routes = [
     ]
   },
   {
-    path: '/',
+    path: '/dashboard/starred',
     component: Dashboard,
     children: [
       {

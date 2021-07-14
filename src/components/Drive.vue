@@ -11,14 +11,14 @@
             <v-btn
               icon
               color="#DCDCDC"
-              class="ml-3"
+              class="ml-1"
               @click="handleClick"
             >
-              <v-icon style="font-size: 25px;">mdi-view-module-outline</v-icon>
+              <v-icon style="font-size: 19px;">mdi-view-grid-outline</v-icon>
             </v-btn>
         </v-col>
       </v-row>
-      <v-row class="mt-0" style="max-width: 852px;">
+      <v-row class="ma-0 d-column" style="align-content: flex-start; max-width: 852px; width: 100%; height: calc(100vh - 136px);">
         <v-icon v-if="isFiles" style="position: absolute; left: 50%; transform: translateX(-50%); top: 120px; font-size: 400px; color: #F5F5F5">mdi-cloud-upload-outline</v-icon>
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
         <GridFiles v-if="isGrid" :files="allFiles"/>

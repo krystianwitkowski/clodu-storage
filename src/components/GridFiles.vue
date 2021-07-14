@@ -4,7 +4,8 @@
     :headers="headers"
     :items="items"
     item-key="name"
-    class="elevation-1"
+    class="elevation-0"
+    style="max-width: 750px; width: 100%; margin-top: 70px;"
   ></v-data-table>
 </template>
 
@@ -60,3 +61,8 @@ export default {
     }
 }
 </script>
+<style>
+.sortable span{
+  font-size: 13px;
+}
+</style>

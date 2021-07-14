@@ -18,9 +18,11 @@
             </v-btn>
         </v-col>
       </v-row>
-      <v-row class="ma-0" style="width: 100%; height: calc(100% - 136px);">
-        <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: false, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
-        <GridFiles v-if="isGrid" :files="starredFiles"/>
+      <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
+        <v-row class="ma-0 d-column" style="align-content: flex-start;height: calc(100vh - 136px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
+          <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: false, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
+          <GridFiles v-if="isGrid" :files="starredFiles"/>
+        </v-row>
       </v-row>
   </v-container>
 </template>
