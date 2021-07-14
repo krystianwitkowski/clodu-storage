@@ -9,8 +9,8 @@
     <v-btn
       @click="handleClickDropdown"
       rounded
-      width="120"
-      height="45"
+      width="125"
+      height="48"
       class="mt-8 mb-8 ml-7 btn-files"
       color="#ffffff"
       style="color: #BEBEBE;"
@@ -30,7 +30,7 @@
             :key="i"
           >
             <v-list-item-icon>
-              <v-icon v-text="item.icon"></v-icon>
+              <v-icon style="font-size: 21px;" v-text="item.icon"></v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <router-link style="position: absolute; left:0; height:40px; width: 100%; display: flex; flex-direction: row; align-items: center; padding-left: 71px;" class="nav-item" v-text="item.text" :to="item.path">Go</router-link>
@@ -43,7 +43,7 @@
         <v-list-item-group>
           <v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-cloud-outline</v-icon>
+              <v-icon style="font-size: 21px;">mdi-cloud-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title style="color: #585858">Storage</v-list-item-title>
@@ -111,7 +111,7 @@ export default {
 }
 
 .btn-files {
-  box-shadow: 0px 0px 5px rgba(0,0,0,0.12);
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.08);
 }
 
 .v-item--active .v-list-item__content a {

@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-8 search d-flex align-center">
+    <div class="mt-9 search d-flex align-center">
         <v-text-field
         class="input-search"
         label="Search"
@@ -36,7 +36,7 @@ export default {
 }
 
 .input-search .v-input__control {
-    min-height: 45px !important;
+    min-height: 42px !important;
 }
 
 .input-search .v-input__control .v-input__slot .v-text-field__slot .v-label {

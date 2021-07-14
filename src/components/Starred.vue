@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-8 pt-0 pb-0">
+  <v-container class="pa-8 pt-0 pb-0 pr-0" style="height: 100%;">
       <v-row class="ma-0">
         <v-col class="pa-0">
           <Search />
@@ -11,14 +11,14 @@
             <v-btn
               icon
               color="#DCDCDC"
-              class="ml-3"
+              class="ml-1"
               @click="handleClick"
             >
-              <v-icon style="font-size: 25px;">mdi-view-module-outline</v-icon>
+              <v-icon style="font-size: 19px;">mdi-view-grid-outline</v-icon>
             </v-btn>
         </v-col>
       </v-row>
-      <v-row class="mt-0" style="max-width: 852px;">
+      <v-row class="ma-0" style="width: 100%; height: calc(100% - 136px);">
         <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: false, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
         <GridFiles v-if="isGrid" :files="starredFiles"/>
       </v-row>

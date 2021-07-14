@@ -11,7 +11,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-icon>mdi-filter-variant</v-icon>
+            <v-icon style="font-size: 21px;">mdi-filter-variant</v-icon>
           </v-btn>
       </template>
 
