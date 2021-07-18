@@ -49,7 +49,7 @@ export default {
     return {
       items: [
         { text: 'Move to drive', icon: 'mdi-folder-download-outline', arg: { name: 'starred', starred: false, id: null } },
-        { text: 'Move to trash', icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: null } }
+        { text: 'Move to trash', icon: 'mdi-delete-outline', arg: { name: 'trash', trash: true, id: null } }
       ],
       grid: false,
       context: false,

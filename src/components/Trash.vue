@@ -16,27 +16,24 @@
             >
               <v-icon style="font-size: 19px;">mdi-view-grid-outline</v-icon>
             </v-btn>
-        </v-col>
-      </v-row>
-      <v-row class="ma-0">
-        <v-col class="pa-0">
-          <v-btn
-            @click="handleClick"
-            rounded
-            width="100"
-            height="45"
-            class="mt-6 ml-7"
-            color="#ffffff"
-            style="color: #DCDCDC; box-shadow: 0px 0px 8px rgba(0,0,0,0.08);"
-          >
-            <v-icon>
-              mdi-delete-outline
-            </v-icon>
-          </v-btn>
+            <v-btn
+              @click="handleClick"
+              icon
+              rounded
+              width="100"
+              height="45"
+              class="ml-7"
+              color="#DCDCDC"
+              style="box-shadow: 0px 0px 8px rgba(0,0,0,0.08);"
+            >
+              <v-icon style="font-size: 21px;">
+                mdi-close-circle-multiple-outline
+              </v-icon>
+            </v-btn>
         </v-col>
       </v-row>
       <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
-        <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 136px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
+        <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 145px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
           <File @update-file-id="updateFileId" @show-context="showContext" @hide-context="hideContext" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
           <GridFiles v-if="isGrid" :files="trashFiles"/>
           <ContextMenu @hide-context="hideContext" :items="items" :posX="posX" :posY="posY" v-if="context" />
@@ -64,7 +61,7 @@ export default {
     data(){
       return {
         items: [
-          { text: 'Restore', icon: 'mdi-folder-download-outline', arg: { name: 'trash', trash: false, id: null } },
+          { text: 'Restore', icon: 'mdi-restore', arg: { name: 'trash', trash: false, id: null } },
         ],
         overlay: false,
         grid: false,
