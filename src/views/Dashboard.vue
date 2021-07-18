@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="d-flex flex-row" style="position: relative;">
         <v-row class="mb-0">
-          <v-col cols="3" class="pb-0">
+          <v-col @contextmenu.prevent="handleContext" cols="3" class="pb-0">
             <Menu />
           </v-col>
           <v-col cols="9" class="pb-0">
@@ -37,6 +37,11 @@ export default {
   },
   destroyed(){
     this.$store.commit('updateFilesAPIStatus', { text: '', loading: false, icon: ''})
+  },
+  methods: {
+    handleContext(e){
+      return;
+    }
   }
 };
 </script>

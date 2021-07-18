@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-8 pt-0 pb-0">
+  <v-container @mousedown.left="handleMouseDownLeft" class="pa-8 pt-0 pb-0">
       <v-row class="ma-0">
         <v-col class="pa-0">
           <Search />
@@ -18,10 +18,12 @@
             </v-btn>
         </v-col>
       </v-row>
-      <v-row class="ma-0 d-column" style="align-content: flex-start; max-width: 852px; width: 100%; height: calc(100vh - 136px);">
-        <v-icon v-if="isFiles" style="position: absolute; left: 50%; transform: translateX(-50%); top: 120px; font-size: 400px; color: #F5F5F5">mdi-cloud-upload-outline</v-icon>
-        <File v-for="file in files" :key="file.id" :file="file" :actions="[{ id: 0, icon: 'mdi-star-outline', arg: { name: 'starred', starred: true, id: file.id } }, { id: 1, icon: 'mdi-trash-can-outline', arg: { name: 'trash', trash: true, id: file.id } }]" />
-        <GridFiles v-if="isGrid" :files="allFiles"/>
+      <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
+        <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 136px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
+          <File @update-file-id="updateFileId" @show-context="showContext" @hide-context="hideContext" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
+          <GridFiles v-if="isGrid" :files="allFiles"/>
+          <ContextMenu @hide-context="hideContext" :items="items" :posX="posX" :posY="posY" v-if="context" />
+        </v-row>
       </v-row>
   </v-container>
 </template>
@@ -34,6 +36,7 @@ import Search from '../components/Search.vue';
 import File from '../components/File.vue';
 import FiltersDropdown from '../components/FiltersDropdown.vue';
 import GridFiles from '../components/GridFiles.vue';
+import ContextMenu from '../components/ContextMenu.vue';
 
 export default {
   name: "Drive",
@@ -41,11 +44,18 @@ export default {
     Search,
     File,
     FiltersDropdown,
-    GridFiles
+    GridFiles,
+    ContextMenu
   },
   data(){
     return {
-      grid: false
+      items: [
+        { text: 'Move to starred', icon: 'mdi-folder-download-outline', arg: { name: 'starred', starred: true, id: null } },
+        { text: 'Move to trash', icon: 'mdi-folder-download-outline', arg: { name: 'trash', trash: true, id: null } },
+
+      ],
+      grid: false,
+      context: false
     }
   },
   computed: {
@@ -104,6 +114,25 @@ export default {
     },
     handleClick(){
       this.grid = !this.grid;
+    },
+    showContext(){
+      this.context = true;
+    },
+    hideContext(){
+      this.context = false;
+    },
+    updatePos(x, y){
+      this.posX = x
+      this.posY = y
+    },
+    updateFileId(id){
+      const items = JSON.parse(JSON.stringify(this.items))
+      this.items = items.map((item, i) => typeof i === "number" ? {...item, arg: { ...item.arg, id: id }} : { ...item })
+    },
+    handleMouseDownLeft(e){
+      const prevent = e.target.className.indexOf('list') !== -1 || e.target.className.indexOf('icon') !== -1;
+
+      return prevent ? false : this.hideContext();
     }
   },
   mounted(){

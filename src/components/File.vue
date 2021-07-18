@@ -1,17 +1,5 @@
 <template>
-<v-col style="width: 260px; height: 180px; flex-basis: initial; flex-grow: initial; max-width: initial;">
-    <div class="item-icons d-flex justify-end mb-1">
-    <v-list-item-icon v-for="action in actions" :key="action.id" class="ma-0" @click="() => handleClick(action.arg)">
-    <v-btn
-        icon
-        color="#DCDCDC"
-        width="30"
-        height="30"
-    >
-        <v-icon style="font-size: 19px;">{{ action.icon }}</v-icon>
-    </v-btn>
-    </v-list-item-icon>
-    </div>
+<v-col @mousedown.left="handleMouseDownLeft" @contextmenu.prevent="handleContextMenu" :data-id="fileId" style="width: 260px; height: 180px; flex-basis: initial; flex-grow: initial; max-width: initial;">
     <a :href="`data:${file.icons.mimetype};base64,${file.base64}`" :download="file.file.name" style="text-decoration: none; display: block; height: 100%;border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 8px;">
     <v-list-item-group style="height: 100%;">
         <v-list-item 
@@ -39,11 +27,6 @@
 </template>
 
 <script>
-/* API */
-import FilesAPI from '../api/files.js';
-/* Utilities */
-import createTokens from '../utilities/createTokens.js';
-
 export default {
     name: 'File',
     props: {
@@ -54,47 +37,25 @@ export default {
         actions: {
             type: Array,
             required: true
+        },
+        fileId: {
+            type: Number,
+            required: true
         }
     },
     methods: {
-        async handleClick(action){
-            try {
-                this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: true, icon: 'mdi-cloud-sync-outline' })
+        handleContextMenu(e){
+            this.$emit('show-context')
 
-                const FilesPUT = await FilesAPI.put({ ...action })
-                
-                if(FilesPUT.status === 401){
-                    try{
-                        const TokensAPI = await createTokens();
-
-                        if(TokensAPI.status === 401){
-                            this.$router.push({ path: '/signin'})
-                        }
-
-                        else {
-                            const FilesPUT = await FilesAPI.put({ ...action })
-                            
-                            this.$store.commit('updateFile', await FilesPUT.json())
-                            this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
-                        }
-                        
-                    } catch {
-                        this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-                    }
-                }
-
-                else if (FilesPUT.status === 200){
-                    this.$store.commit('updateFile', await FilesPUT.json()) 
-                    this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
-                }
-
-                else {
-                    this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-                }
-
-            } catch {
-                this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-            }
+            const id = Number(e.currentTarget.getAttribute('data-id'))
+            const rect = e.currentTarget.parentElement.getBoundingClientRect();
+            
+            
+            this.$emit('update-pos', e.clientX - rect.left, e.clientY - rect.top),
+            this.$emit('update-file-id', id)
+        },
+        handleMouseDownLeft(){
+            this.$emit('hide-context')
         }
     }
 }
