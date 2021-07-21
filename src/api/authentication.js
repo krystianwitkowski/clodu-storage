@@ -1,4 +1,4 @@
-export default async (user) => {
+const get = (user) => {
     const url = `http://localhost:5001/api/authentication?name=${user.name}&password=${user.password}`;
     
     return fetch(url, {
@@ -6,4 +6,8 @@ export default async (user) => {
             'Content-Type': 'application/json'
         }
     });
+}
+
+export default {
+    get
 }

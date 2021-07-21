@@ -26,6 +26,9 @@ export default {
     },
     destroyed(){
       this.$store.commit('updateFormAPIStatus', { text: '', loading: false, icon: ''})
+    },
+    mounted(){
+      this.$store.commit('updateValidateAuth', { validate: ['', '']})
     }
 }
 

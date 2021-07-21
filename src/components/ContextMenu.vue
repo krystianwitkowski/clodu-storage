@@ -54,48 +54,8 @@ export default {
       }
     },
     methods : {
-      async handleClick(action){
-          try {
-              this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: true, icon: 'mdi-cloud-sync-outline' })
-
-              const FilesPUT = await FilesAPI.put({ ...action })
-              
-              if(FilesPUT.status === 401){
-                  try{
-                      const TokensAPI = await createTokens();
-
-                      if(TokensAPI.status === 401){
-                          this.$router.push({ path: '/signin'})
-                      }
-
-                      else {
-                          const FilesPUT = await FilesAPI.put({ ...action })
-                          
-                          this.$store.commit('updateFile', await FilesPUT.json())
-                          this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
-                          
-                          this.$emit('hide-context')
-                      }
-                      
-                  } catch {
-                      this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-                  }
-              }
-
-              else if (FilesPUT.status === 200){
-                  this.$store.commit('updateFile', await FilesPUT.json()) 
-                  this.$store.commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
-                  
-                  this.$emit('hide-context')
-              }
-
-              else {
-                  this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-              }
-
-          } catch {
-              this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-          }
+      handleClick(action){
+        this.$store.dispatch('getFileAction', { api: FilesAPI, action, createTokens })
       }
     }
 }

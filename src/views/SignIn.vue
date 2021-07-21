@@ -29,6 +29,7 @@ export default {
     },
     mounted(){
       this.$store.commit('updateSynchronize', true)
+      this.$store.commit('updateValidateUser', { validate: ['', ''] })
     }
 }
 </script>

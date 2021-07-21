@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         handleContextMenu(e){
-            this.$emit('show-context')
+            this.$store.commit('updateContext', { context: true })
 
             const id = Number(e.currentTarget.getAttribute('data-id'))
             const rect = e.currentTarget.parentElement.getBoundingClientRect();
@@ -55,7 +55,7 @@ export default {
             this.$emit('update-file-id', id)
         },
         handleMouseDownLeft(){
-            this.$emit('hide-context')
+            this.$store.commit('updateContext', { context: false })
         }
     }
 }

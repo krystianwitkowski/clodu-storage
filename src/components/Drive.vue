@@ -20,9 +20,9 @@
       </v-row>
       <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
         <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 136px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
-          <File @update-file-id="updateFileId" @show-context="showContext" @hide-context="hideContext" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
+          <File @update-file-id="updateFileId" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
           <GridFiles v-if="isGrid" :files="allFiles"/>
-          <ContextMenu @hide-context="hideContext" :items="items" :posX="posX" :posY="posY" v-if="context" />
+          <ContextMenu :items="items" :posX="posX" :posY="posY" v-if="isContext" />
         </v-row>
       </v-row>
   </v-container>
@@ -54,8 +54,7 @@ export default {
         { text: 'Move to trash', icon: 'mdi-delete-outline', arg: { name: 'trash', trash: true, id: null } },
 
       ],
-      grid: false,
-      context: false
+      grid: false
     }
   },
   computed: {
@@ -78,48 +77,21 @@ export default {
       }
     },
     isFiles(){
-      if(this.$store.state.files.length > 0){
-        return false
-      }
-
-      else {
-        return true
-      }
+      return this.$store.state.files.length > 0 ? false : true;
     },
     allFiles(){
       return this.$store.getters.files(obj => obj.trash === false && obj.starred === false)
     },
     isGrid(){
       return this.grid;
+    },
+    isContext(){
+      return this.$store.state.context
     }
   },
   methods:{
-    async getSynchronize(){
-      try {
-        this.$store.commit('updateFilesAPIStatus', { text: 'Synchronization', loading: true, icon: 'mdi-cloud-sync-outline' })
-        
-        const res = await FilesAPI.get();
-
-          if(res.status === 200){
-            this.$store.commit('addFiles', await res.json())
-            this.$store.commit('updateFilesAPIStatus', { text: 'Synchronization', loading: false, icon: 'mdi-cloud-sync-outline' })
-          }
-
-          else {
-            this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-cloud-sync-outline' })
-          }
-      } catch {
-          this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-cloud-sync-outline' })
-      }
-    },
     handleClick(){
       this.grid = !this.grid;
-    },
-    showContext(){
-      this.context = true;
-    },
-    hideContext(){
-      this.context = false;
     },
     updatePos(x, y){
       this.posX = x
@@ -132,14 +104,15 @@ export default {
     handleMouseDownLeft(e){
       const prevent = e.target.className.indexOf('list') !== -1 || e.target.className.indexOf('icon') !== -1;
 
-      return prevent ? false : this.hideContext();
+      return prevent ? false : this.$store.commit('updateContext', { context: false });
     }
+  },
+  created(){
+    this.$store.commit('updateContext', { context: false })
   },
   mounted(){
     if(this.$store.state.synchronize){
-      this.getSynchronize();
-
-      this.$store.commit('updateSynchronize', false)
+      this.$store.dispatch('getSynchronize', { api: FilesAPI })
     }
     this.$store.commit('updateSearch', '')
   }

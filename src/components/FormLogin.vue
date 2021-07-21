@@ -10,7 +10,7 @@
             outlined
             dense
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[0] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[0] }}</p>
         </v-col>
       </v-row>
       <v-divider></v-divider>
@@ -23,7 +23,7 @@
             outlined
             dense
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[1] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[1] }}</p>
         </v-col>
           <v-btn
             icon
@@ -40,7 +40,7 @@
         <p style="font-size: 14px; text-align: right; color: #999">Already have an account ? <router-link to="/signup" style="text-decoration: none;">Sign up</router-link></p>
       </v-col>
     </v-row>
-        <v-btn @click="handleClickSubmit" class="mt-5" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
+        <v-btn @click="handleClickForm" class="mt-5" width="100%" color="primary" height="42px" style="text-transform: capitalize;">
           Sign in
         </v-btn>
     </v-container>
@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import authentication from '../api/authentication.js';
+/* API */
+import AuthenticationAPI from '../api/authentication.js';
 
 export default {
     name: 'FormLogin',
@@ -59,7 +60,6 @@ export default {
           name: '',
           password: ''
         },
-        validate: ['', ''],
         visiblePassword: false,
         form: false
       }
@@ -70,39 +70,25 @@ export default {
       },
       currentTypePassword(){
         return this.visiblePassword ? 'text' : 'password'
+      },
+      validate(){
+        return this.$store.state.validateAuth;
       }
     },
     methods: {
       handleClickIcon(){
         this.visiblePassword = !this.visiblePassword
       },
-      async handleClickSubmit(){
-        try {
-          this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' })
-
-          const res = await authentication(JSON.parse(JSON.stringify(this.user)))
-          const body = await res.json();
-
-            if(res.status === 200){
-              
-              localStorage.setItem('tokens', JSON.stringify(body))
-
-              this.$router.push({ path: '/dashboard/drive' })
-            }
-
-            else {
-              this.validate = body.validate
-            }
-
-        } catch {
-            this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-        }
+      handleClickForm(){
+        this.$store.dispatch('authUser', { api: AuthenticationAPI , user: this.user })
       }
     },
     mounted(){
       this.$nextTick(() => {
         this.form = true;
       })
+
+      this.$store.commit('updateValidateAuth');
     }
 }
 

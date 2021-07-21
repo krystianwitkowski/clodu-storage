@@ -10,7 +10,7 @@
             dense
             v-model="user.name"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[0] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[0] }}</p>
         </v-col>
       </v-row>
       <v-divider></v-divider>
@@ -22,7 +22,7 @@
             dense
             v-model="user.email"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[1] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[1] }}</p>
         </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -35,7 +35,7 @@
             dense
             v-model="user.password"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[2] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[2] }}</p>
         </v-col>
           <v-btn
             icon
@@ -56,7 +56,7 @@
             dense
             v-model="user.repeatPassword"
           ></v-text-field>
-          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ this.validate[3] }}</p>
+          <p style="position: absolute; right: 12px; top: 48px; font-size: 13px; color: #ff0038">{{ validate[3] }}</p>
         </v-col>
     </v-row>
     <v-row class="mt-4">
@@ -74,8 +74,8 @@
 </template>
 
 <script>
-
-import UsersAPI from '../api/users.js'
+/* API */
+import UsersAPI from '../api/users';
 
 export default {
     name: 'FormRegister',
@@ -87,7 +87,6 @@ export default {
           password: '',
           repeatPassword: ''
         },
-        validate: ['', '', '', ''],
         visiblePassword: false,
         form: false
       }
@@ -98,27 +97,14 @@ export default {
       },
       currentTypePassword(){
         return this.visiblePassword ? 'text' : 'password';
+      },
+      validate(){
+        return this.$store.state.validateUser;
       }
     },
     methods:{
-      async handleClickButton(){
-        try {
-          this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' })
-
-          const res = await UsersAPI.post(JSON.stringify(this.user))
-
-          if(res.status === 201){
-            this.$router.push({ path: '/signin'})
-          }
-
-          else {
-            const body = await res.json()
-
-            this.validate = body.validate
-          }
-        } catch {
-            this.$store.commit('updateFormAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
-        }
+      handleClickButton(){
+        this.$store.dispatch('createUser', { api: UsersAPI, user: this.user })
       },
       handleClickIcon(){
         this.visiblePassword = !this.visiblePassword

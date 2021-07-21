@@ -34,9 +34,9 @@
       </v-row>
       <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
         <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 145px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
-          <File @update-file-id="updateFileId" @show-context="showContext" @hide-context="hideContext" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
+          <File @update-file-id="updateFileId" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
           <GridFiles v-if="isGrid" :files="trashFiles"/>
-          <ContextMenu @hide-context="hideContext" :items="items" :posX="posX" :posY="posY" v-if="context" />
+          <ContextMenu :items="items" :posX="posX" :posY="posY" v-if="isContext" />
         </v-row>
       </v-row>
   </v-container>
@@ -65,7 +65,6 @@ export default {
         ],
         overlay: false,
         grid: false,
-        context: false,
         posX: 0,
         posY: 0
       }
@@ -95,6 +94,9 @@ export default {
       },
       isGrid(){
         return this.grid;
+      },
+      isContext(){
+        return this.$store.state.context
       }
     },
     methods: {
@@ -103,12 +105,6 @@ export default {
       },
       handleClickIcon(){
         this.grid = !this.grid;
-      },
-      showContext(){
-        this.context = true;
-      },
-      hideContext(){
-        this.context = false;
       },
       updatePos(x, y){
         this.posX = x
@@ -121,8 +117,11 @@ export default {
       handleMouseDownLeft(e){
         const prevent = e.target.className.indexOf('list') !== -1 || e.target.className.indexOf('icon') !== -1;
 
-        return prevent ? false : this.hideContext();
+        return prevent ? false : this.$store.commit('updateContext', { context: false });
       }
+    },
+    created(){
+      this.$store.commit('updateContext', { context: false })
     },
     mounted(){
       this.$store.commit('updateSearch', '')
