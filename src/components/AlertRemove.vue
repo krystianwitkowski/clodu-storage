@@ -28,6 +28,7 @@
 </template>
 
 <script>
+/* API */
 import FilesAPI from '../api/files.js';
 
     export default {
@@ -38,19 +39,8 @@ import FilesAPI from '../api/files.js';
             }
         },
         methods: {
-            async handleClickYes(){
-                try {
-                    const trashFilesId = this.$store.state.files.map((obj, i) => typeof i === 'number' ? { ...obj, file: JSON.parse(obj.file) } : { ...obj } ).filter(file => file.trash).map(file => file.id)
-                    
-                    const deleted = await FilesAPI.delete(JSON.stringify(trashFilesId))
-
-                    this.$store.commit('deleteFiles', await deleted.json())
-                    
-                    this.$store.commit('updateOverlay', false)
-
-                } catch {
-                    this.$store.commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline'})
-                }
+            handleClickYes(){
+                this.$store.dispatch('deleteFiles', { api: FilesAPI })
             },
             handleClickNo(){
                 this.$store.commit('updateOverlay', false)

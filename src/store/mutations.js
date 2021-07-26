@@ -11,6 +11,9 @@ export default {
     updateFile(state, payload){
     return state.files = state.files.map(file => file.id === payload.id ? { ...payload } : { ...file })
     },
+    deleteFile(state, payload){
+    return state.files = state.files.filter(file => file.id !== payload.id)
+    },
     deleteFiles(state, payload){
     const ids = payload.map(file => file.id);
     return state.files = state.files.filter(file => ids.every(id => id !== file.id))

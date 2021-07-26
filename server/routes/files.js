@@ -3,6 +3,7 @@ const Router = express.Router();
 const mimeTypes = require('../utilities/mime-types.js');
 
 const { MongoClient } = require('mongodb');
+const { query } = require("express");
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.ex8xh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -146,10 +147,10 @@ Router.route("/")
         
         const user = await users.findOne({ id: req.decoded.id })
 
-        if(req.query.id){
-            const ids = JSON.parse(req.query.id);
+        const queryId = JSON.parse(req.query.id)
 
-            const setAction = user.files.filter(file => ids.every(id => id !== file.id))
+        if(typeof queryId === 'number'){
+            const setAction = user.files.filter(file => file.id !== queryId)
             
             const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
                 $set: {
@@ -159,7 +160,21 @@ Router.route("/")
                 returnOriginal: true
             })
 
-            res.status(200).json(updated.value.files.filter(file => ids.includes(file.id)))
+            res.status(200).json(updated.value.files.find(file => file.id === queryId))
+        }
+        
+        if(typeof queryId === 'object'){
+            const setAction = user.files.filter(file => queryId.every(id => id !== file.id))
+            
+            const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
+                $set: {
+                    files: setAction
+                }
+            }, {
+                returnOriginal: true
+            })
+
+            res.status(200).json(updated.value.files.filter(file => queryId.includes(file.id)))
         }
 
     } catch {

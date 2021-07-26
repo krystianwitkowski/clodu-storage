@@ -17,7 +17,7 @@
           :key="i"
           class="item-context-menu"
           style="height: 48px;"
-          @click="() => handleClick(item.arg)"
+          @click="() => handleClick(item.action, item.arg)"
         >
           <v-list-item-icon>
             <v-icon color="#DCDCDC" style="font-size: 21px; position: relative; top: -1px;" v-text="item.icon"></v-icon>
@@ -54,9 +54,15 @@ export default {
       }
     },
     methods : {
-      handleClick(action){
-        this.$store.dispatch('getFileAction', { api: FilesAPI, action, createTokens })
-      }
+      handleClick(action, arg){
+        if(action === 'move'){
+          this.$store.dispatch('moveAction', { api: FilesAPI, arg, createTokens })
+        }
+
+        if(action === 'delete'){
+          this.$store.dispatch('deleteAction', { api: FilesAPI, arg, createTokens })
+        }
+      },
     }
 }
 </script>
