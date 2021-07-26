@@ -62,6 +62,17 @@ export default {
         if(action === 'delete'){
           this.$store.dispatch('deleteAction', { api: FilesAPI, arg, createTokens })
         }
+
+        if(action === 'download'){
+          const file = this.$store.state.files.find(file => file.id === JSON.parse(arg.id))
+          const node = document.createElement('a');
+          const name = node.download = JSON.parse(file.file).name
+          const href = node.href = `data:${JSON.parse(file.file).mimetype};base64,${file.base64}`
+          
+          node.click();
+
+          this.$store.commit('updateContext', { context: false })
+        }
       },
     }
 }

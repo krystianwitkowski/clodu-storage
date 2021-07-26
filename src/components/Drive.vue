@@ -52,7 +52,7 @@ export default {
       items: [
         { text: 'Move to starred', icon: 'mdi-star-outline', action: 'move', arg: { name: 'starred', starred: true, id: null } },
         { text: 'Move to trash', icon: 'mdi-delete-outline', action: 'move', arg: { name: 'trash', trash: true, id: null } },
-
+        { text: 'Download', icon: 'mdi-auto-download', action: 'download', arg: { id: null }}
       ],
       grid: false
     }
