@@ -49,6 +49,10 @@ const put = async (query) => {
         url = `http://localhost:5001/api/files?id=${query.id}&starred=${query.starred}`;
     }
 
+    else if (query && query.name === 'rename') {
+        url = `http://localhost:5001/api/files?id=${query.id}&rename=${query.text}`;
+    }
+    
     return fetch(url, {
         headers: {
             'X-Access-Token':  getTokens().accessToken,

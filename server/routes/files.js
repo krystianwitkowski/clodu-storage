@@ -3,7 +3,6 @@ const Router = express.Router();
 const mimeTypes = require('../utilities/mime-types.js');
 
 const { MongoClient } = require('mongodb');
-const { query } = require("express");
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.ex8xh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -116,6 +115,24 @@ Router.route("/")
 
         if(req.query.starred){
             const setAction = user.files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, starred: JSON.parse(req.query.starred) } : { ...file })
+            
+            const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
+                $set: {
+                    files: setAction
+                }
+            }, {
+                returnOriginal: false
+            })
+
+            res.status(200).json(updated.value.files.find(file => file.id === JSON.parse(req.query.id)))
+        }
+
+        if(req.query.rename){
+            const file = JSON.parse(user.files.find(file => file.id === JSON.parse(req.query.id)).file)
+            console.log(req.query)
+            const updateFile = { ...file, name: `${req.query.rename}.${file.name.split('.')[1]}` }
+
+            const setAction = user.files.map(file => file.id === JSON.parse(req.query.id) ? { ...file, file: JSON.stringify(updateFile) } : { ...file })
             
             const updated = await users.findOneAndUpdate({ id: req.decoded.id }, {
                 $set: {

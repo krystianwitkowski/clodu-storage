@@ -17,7 +17,7 @@
         </v-list-item-icon>
         <v-list-item-content style="flex: initial;">
             <v-list-item-title style="color: #585858" class="subtitle-2"
-            >{{ file.file.name }}</v-list-item-title
+            >{{ file.file.name.split('.')[0] }}</v-list-item-title
             >
         </v-list-item-content>
         </v-list-item>
@@ -52,7 +52,7 @@ export default {
             
             
             this.$emit('update-pos', e.clientX - rect.left, e.clientY - rect.top),
-            this.$emit('update-file-id', id)
+            this.$store.commit('updateContextId', { id })
         },
         handleMouseDownLeft(){
             this.$store.commit('updateContext', { context: false })

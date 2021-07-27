@@ -14,6 +14,7 @@
       <AlertFiles v-if="FilesAPIStatus" />
     </transition>
     <AlertRemove />
+    <AlertRenameFile v-if="isOverlayRenameFile"/>
   </v-app>
 </template>
 
@@ -22,17 +23,22 @@
 import Menu from '../components/Menu.vue';
 import AlertFiles from '../components/AlertFiles.vue';
 import AlertRemove from '../components/AlertRemove.vue';
+import AlertRenameFile from '../components/AlertRenameFile.vue';
 
 export default {
   name: 'Dashboard',
   components: {
     Menu,
     AlertFiles,
-    AlertRemove
+    AlertRemove,
+    AlertRenameFile
   },
   computed: {
     FilesAPIStatus(){
       return this.$store.state.FilesAPIStatus.loading;
+    },
+    isOverlayRenameFile(){
+      return this.$store.state.overlayRenameFile
     }
   },
   destroyed(){

@@ -44,5 +44,11 @@ export default {
     },
     updateContext(state, payload){
     return state.context = payload.context
+    },
+    updateOverlayRenameFile(state, payload){
+    return state.overlayRenameFile = payload.overlay
+    },
+    updateContextId(state, payload){
+        return state.contextId = payload.id
     }
 }

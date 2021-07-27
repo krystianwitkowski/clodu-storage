@@ -9,5 +9,7 @@ export default {
     currentFilter: '',
     validateAuth: ['', ''],
     validateUser: ['', '', '', ''],
-    context: false
+    context: false,
+    overlayRenameFile: false,
+    contextId: null
 }

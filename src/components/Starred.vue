@@ -20,7 +20,7 @@
       </v-row>
       <v-row class="ma-0" style="overflow: hidden;max-width: 869px;width: 100%;position: relative;right: 17px;">
         <v-row class="ma-0 d-column" style="padding: 30px 0 50px 0 ; align-content: flex-start;height: calc(100vh - 136px);width: 100%;overflow: auto;max-width: 869px;position: relative;left: 17px;">
-          <File @update-file-id="updateFileId" @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
+          <File @update-pos="updatePos" v-for="file in files" :file-id="file.id" :key="file.id" :file="file" />
           <GridFiles v-if="isGrid" :files="starredFiles"/>
           <ContextMenu :items="items" :posX="posX" :posY="posY" v-if="isContext" />
         </v-row>
@@ -48,9 +48,10 @@ export default {
   data(){
     return {
       items: [
-        { text: 'Move to drive', icon: 'mdi-folder-download-outline', action: 'move',  arg: { name: 'starred', starred: false, id: null } },
-        { text: 'Move to trash', icon: 'mdi-delete-outline', action: 'move', arg: { name: 'trash', trash: true, id: null } },
-        { text: 'Download', icon: 'mdi-auto-download', action: 'download', arg: { id: null }},
+        { text: 'Move to drive', icon: 'mdi-folder-download-outline', action: 'move', payload: { name: 'starred', starred: false } },
+        { text: 'Move to trash', icon: 'mdi-delete-outline', action: 'move', payload: { name: 'trash', trash: true } },
+        { text: 'Rename', icon: 'mdi-pencil-plus-outline', action: 'rename' },
+        { text: 'Download', icon: 'mdi-auto-download', action: 'download' },
       ],
       grid: false,
       posX: 0,
@@ -92,10 +93,6 @@ export default {
     updatePos(x, y){
       this.posX = x
       this.posY = y
-    },
-    updateFileId(id){
-      const items = JSON.parse(JSON.stringify(this.items))
-      this.items = items.map((item, i) => typeof i === "number" ? {...item, arg: { ...item.arg, id: id }} : { ...item })
     },
     handleMouseDownLeft(e){
       const prevent = e.target.className.indexOf('list') !== -1 || e.target.className.indexOf('icon') !== -1;

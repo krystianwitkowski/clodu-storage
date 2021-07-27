@@ -17,7 +17,7 @@
           :key="i"
           class="item-context-menu"
           style="height: 48px;"
-          @click="() => handleClick(item.action, item.arg)"
+          @click="() => handleClick(item.action, item.payload)"
         >
           <v-list-item-icon>
             <v-icon color="#DCDCDC" style="font-size: 21px; position: relative; top: -1px;" v-text="item.icon"></v-icon>
@@ -54,17 +54,22 @@ export default {
       }
     },
     methods : {
-      handleClick(action, arg){
+      handleClick(action, payload){
         if(action === 'move'){
-          this.$store.dispatch('moveAction', { api: FilesAPI, arg, createTokens })
+          this.$store.dispatch('moveAction', { api: FilesAPI, arg: {...payload, id: this.$store.state.contextId }, createTokens })
         }
 
         if(action === 'delete'){
-          this.$store.dispatch('deleteAction', { api: FilesAPI, arg, createTokens })
+          this.$store.dispatch('deleteAction', { api: FilesAPI, arg: { id: this.$store.state.contextId }, createTokens })
+        }
+
+        if(action === 'rename'){
+          this.$store.commit('updateOverlayRenameFile', { overlay: true })
+          this.$store.commit('updateContext', { context: false })
         }
 
         if(action === 'download'){
-          const file = this.$store.state.files.find(file => file.id === JSON.parse(arg.id))
+          const file = this.$store.state.files.find(file => file.id === JSON.parse(this.$store.state.contextId))
           const node = document.createElement('a');
           const name = node.download = JSON.parse(file.file).name
           const href = node.href = `data:${JSON.parse(file.file).mimetype};base64,${file.base64}`
@@ -73,6 +78,7 @@ export default {
 
           this.$store.commit('updateContext', { context: false })
         }
+
       },
     }
 }

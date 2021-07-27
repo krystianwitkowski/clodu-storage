@@ -61,8 +61,8 @@ export default {
     data(){
       return {
         items: [
-          { text: 'Restore', icon: 'mdi-restore', action: 'move', arg: { name: 'trash', trash: false, id: null } },
-          { text: 'Delete', icon: 'mdi-delete-forever-outline', action: 'delete', arg: { id: null } },
+          { text: 'Restore', icon: 'mdi-restore', action: 'move', payload: { name: 'trash', trash: false } },
+          { text: 'Delete', icon: 'mdi-delete-forever-outline', action: 'delete' },
         ],
         overlay: false,
         grid: false,

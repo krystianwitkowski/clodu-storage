@@ -169,5 +169,50 @@ async getSynchronize({ commit, dispatch }, payload){
         } catch {
             commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline'})
         }
+    },
+    async renameAction({ commit, dispatch }, payload){
+        try {
+        commit('updateFilesAPIStatus', { text: 'Action in progress', loading: true, icon: 'mdi-cloud-sync-outline' })
+
+        const FilesPUT = await payload.api.put(payload.arg)
+        
+        if(FilesPUT.status === 401){
+            try{
+                const TokensAPI = await payload.createTokens();
+
+                if(TokensAPI.status === 401){
+                    router.push({ path: '/signin'})
+                }
+
+                else {
+                    const FilesPUT = await payload.api.put(payload.arg)
+                    
+                    commit('updateFile', await FilesPUT.json())
+                    commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
+                    commit('updateContext', { context: false })
+                }
+                
+            } catch {
+                commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+                dispatch('hidePopup', { name: 'updateFilesAPIStatus', status: { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' }})
+            }
+        }
+
+        else if (FilesPUT.status === 200){
+            commit('updateFile', await FilesPUT.json()) 
+            commit('updateFilesAPIStatus', { text: 'Action in progress', loading: false, icon: 'mdi-cloud-sync-outline' })
+            
+            commit('updateContext', { context: false })
+        }
+
+        else {
+            commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+            dispatch('hidePopup', { name: 'updateFilesAPIStatus', status: { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' }})
+        }
+
+    } catch {
+        commit('updateFilesAPIStatus', { text: 'Something went wrong', loading: true, icon: 'mdi-information-outline' })
+        dispatch('hidePopup', { name: 'updateFilesAPIStatus', status: { text: 'Something went wrong', loading: false, icon: 'mdi-information-outline' }})
     }
+    },
 }
